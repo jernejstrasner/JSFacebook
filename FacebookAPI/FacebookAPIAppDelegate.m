@@ -23,9 +23,18 @@
 	[self.window makeKeyAndVisible];
 	
 	// Login to Facebook
-	[[JSFacebook sharedInstance] login];
+	JSFacebook *facebook = [JSFacebook sharedInstance];
+	[facebook loginAndOnSuccess:^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidLoginNotification object:facebook];
+	} onError:^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidNotLoginNotification object:facebook];
+	}];
 	
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+	return [[[JSFacebook sharedInstance] facebook] handleOpenURL:url];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

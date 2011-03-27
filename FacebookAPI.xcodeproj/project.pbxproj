@@ -94,6 +94,7 @@
 		1958B9DD133E92F600C90D1A /* JSFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSFacebook.h; sourceTree = "<group>"; };
 		1958B9DE133E92F600C90D1A /* JSFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSFacebook.m; sourceTree = "<group>"; };
 		1958B9F2133EA5AB00C90D1A /* fbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fbicon.png; path = ../fbicon.png; sourceTree = "<group>"; };
+		197A727C133FF93100590300 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +174,7 @@
 				1958B981133E896500C90D1A /* FacebookAPI-Info.plist */,
 				1958B982133E896500C90D1A /* InfoPlist.strings */,
 				1958B985133E896500C90D1A /* FacebookAPI-Prefix.pch */,
+				197A727C133FF93100590300 /* Constants.h */,
 				1958B986133E896500C90D1A /* main.m */,
 			);
 			name = "Supporting Files";
@@ -551,6 +553,7 @@
 				1958B9AE133E896500C90D1A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1958B9AF133E896500C90D1A /* Build configuration list for PBXNativeTarget "FacebookAPITests" */ = {
 			isa = XCConfigurationList;
@@ -559,6 +562,7 @@
 				1958B9B1133E896500C90D1A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

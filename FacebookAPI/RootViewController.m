@@ -13,26 +13,9 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
+	
+	// Notifications
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookDidLogin:) name:kFacebookDidLoginNotification object:nil];
 }
 
 /*
@@ -42,6 +25,26 @@
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
  */
+
+- (void)facebookDidLogin:(NSNotification *)notification {
+	// Test the Facebook API
+	JSFacebook *facebook = [JSFacebook sharedInstance];
+	[facebook requestWithGraphPath:@"/me/home" onSuccess:^(id responseObject) {
+		DLog(@"Response 1 received!");
+	} onError:^(NSError *error) {
+		DLog(@"Error 1: %@", [error localizedDescription]);
+	}];
+	[facebook requestWithGraphPath:@"/me/inbox" onSuccess:^(id responseObject) {
+		DLog(@"Response 2 received!");
+	} onError:^(NSError *error) {
+		DLog(@"Error 2: %@", [error localizedDescription]);
+	}];
+	[facebook requestWithGraphPath:@"/me/feed" onSuccess:^(id responseObject) {
+		DLog(@"Response 3 received!");
+	} onError:^(NSError *error) {
+		DLog(@"Error 3: %@", [error localizedDescription]);
+	}];
+}
 
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
