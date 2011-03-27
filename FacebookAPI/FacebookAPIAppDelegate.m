@@ -21,6 +21,10 @@
 	// Add the navigation controller's view to the window and display.
 	self.window.rootViewController = self.navigationController;
 	[self.window makeKeyAndVisible];
+	
+	// Login to Facebook
+	[[JSFacebook sharedInstance] login];
+	
     return YES;
 }
 
