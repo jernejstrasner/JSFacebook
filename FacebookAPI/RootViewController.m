@@ -45,12 +45,13 @@
 //		DLog(@"Error 3: %@", [error localizedDescription]);
 //	}];
 	// Post
-	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
-	[postParams setValue:@"Just testing :)" forKey:@"message"];
-	[facebook requestWithGraphPath:@"/me/feed" andParams:postParams andHttpMethod:@"POST" onSuccess:^(id responseObject) {
-		DLog(@"Status posted");
+	JSGraphRequest *graphRequest = [JSGraphRequest requestWithGraphPath:@"/me/feed"];
+	[graphRequest setHttpMethod:@"POST"];
+	[graphRequest addParameter:@"message" withValue:@"Just testing :)"];
+	[facebook fetchRequest:graphRequest onSuccess:^(id responseObject) {
+		DLog(@"Posted to the wall!");
 	} onError:^(NSError *error) {
-		DLog(@"Error while posting status: %@", [error localizedDescription]);
+		DLog(@"Error posting: %@", [error localizedDescription]);
 	}];
 }
 

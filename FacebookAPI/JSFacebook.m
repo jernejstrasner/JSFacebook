@@ -144,28 +144,22 @@ static void * volatile sharedInstance = nil;
 
 #pragma mark - Graph API requests
 
-- (void)requestWithGraphPath:(NSString *)graphPath
-				   andParams:(NSDictionary *)params
-			   andHttpMethod:(NSString *)httpMethod
-				   onSuccess:(successBlock)succBlock
-					 onError:(errorBlock)errBlock
+- (void)fetchRequest:(JSGraphRequest *)graphRequest
+		   onSuccess:(successBlock)succBlock
+			 onError:(errorBlock)errBlock
 {
-	if (httpMethod == nil) {
-		httpMethod = @"GET";
-	}
-	
 	// Additional parameters
-	NSMutableDictionary *params_ = [NSMutableDictionary dictionaryWithDictionary:params];
+	NSMutableDictionary *params_ = [NSMutableDictionary dictionaryWithDictionary:graphRequest.parameters];
 	[params_ setValue:@"json" forKey:@"format"];
 	
 	// Request
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-	[request setHTTPMethod:httpMethod];
+	[request setHTTPMethod:graphRequest.httpMethod];
 	
 	// URL
 	NSMutableString *url = [NSMutableString stringWithString:@"https://graph.facebook.com/"];
 	// Remove the slash from the graph path beginning
-	NSString *gPath = graphPath;
+	NSString *gPath = graphRequest.graphPath;
 	while ([gPath hasPrefix:@"/"]) {
 		gPath = [gPath substringFromIndex:1];
 	}
@@ -177,7 +171,7 @@ static void * volatile sharedInstance = nil;
 	else glue = '?';
 	
 	// Different parameters encoding for differet methods
-	if ([httpMethod isEqualToString:@"POST"]) {
+	if ([graphRequest.httpMethod isEqualToString:@"POST"]) {
 		// Generate a POST body from the parameters (supports images)
 		[request setHTTPBody:[self generatePOSTBody:params_]];
 		// Add the access token
@@ -236,19 +230,16 @@ static void * volatile sharedInstance = nil;
 }
 
 - (void)requestWithGraphPath:(NSString *)graphPath
-				   andParams:(NSDictionary *)params
 				   onSuccess:(successBlock)succBlock
 					 onError:(errorBlock)errBlock
 {
-	[self requestWithGraphPath:graphPath andParams:params andHttpMethod:nil onSuccess:succBlock onError:errBlock];
+	JSGraphRequest *graphRequest = [[[JSGraphRequest alloc] initWithGraphPath:graphPath] autorelease];
+	[self fetchRequest:graphRequest onSuccess:succBlock onError:errBlock];
 }
 
-- (void)requestWithGraphPath:(NSString *)graphPath
-				   onSuccess:(successBlock)succBlock
-					 onError:(errorBlock)errBlock
-{
-	[self requestWithGraphPath:graphPath andParams:nil andHttpMethod:nil onSuccess:succBlock onError:errBlock];
-}
+#pragma mark - Graph API batch requests
+
+
 
 #pragma mark - Utility methods
 
@@ -259,7 +250,7 @@ static void * volatile sharedInstance = nil;
 		id obj = [params valueForKey:key];
 		// Encode arrays and dictionaries in JSON
 		if ([obj isKindOfClass:[NSArray class]] || [obj isKindOfClass:[NSDictionary class]]) {
-			obj = [obj JSONFragment];
+			obj = [obj JSONRepresentation];
 		}
 		// Escaping
 		NSString *escaped_value = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, /* allocator */

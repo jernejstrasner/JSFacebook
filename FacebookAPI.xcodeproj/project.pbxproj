@@ -35,6 +35,7 @@
 		1958B9DA133E905B00C90D1A /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9CF133E905B00C90D1A /* SBJsonWriter.m */; };
 		1958B9DF133E92F600C90D1A /* JSFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9DE133E92F600C90D1A /* JSFacebook.m */; };
 		1958B9F3133EA5AB00C90D1A /* fbicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1958B9F2133EA5AB00C90D1A /* fbicon.png */; };
+		195FB8E913413593006137FF /* JSGraphRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 195FB8E813413593006137FF /* JSGraphRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,8 @@
 		1958B9DD133E92F600C90D1A /* JSFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSFacebook.h; sourceTree = "<group>"; };
 		1958B9DE133E92F600C90D1A /* JSFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSFacebook.m; sourceTree = "<group>"; };
 		1958B9F2133EA5AB00C90D1A /* fbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fbicon.png; path = ../fbicon.png; sourceTree = "<group>"; };
+		195FB8E713413593006137FF /* JSGraphRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSGraphRequest.h; sourceTree = "<group>"; };
+		195FB8E813413593006137FF /* JSGraphRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSGraphRequest.m; sourceTree = "<group>"; };
 		197A727C133FF93100590300 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -244,6 +247,8 @@
 			children = (
 				1958B9DD133E92F600C90D1A /* JSFacebook.h */,
 				1958B9DE133E92F600C90D1A /* JSFacebook.m */,
+				195FB8E713413593006137FF /* JSGraphRequest.h */,
+				195FB8E813413593006137FF /* JSGraphRequest.m */,
 			);
 			name = FBAPI;
 			sourceTree = "<group>";
@@ -369,6 +374,7 @@
 				1958B9D9133E905B00C90D1A /* SBJsonParser.m in Sources */,
 				1958B9DA133E905B00C90D1A /* SBJsonWriter.m in Sources */,
 				1958B9DF133E92F600C90D1A /* JSFacebook.m in Sources */,
+				195FB8E913413593006137FF /* JSGraphRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <dispatch/dispatch.h>
+
 #import "FBConnect.h"
+#import "JSGraphRequest.h"
 
 
 #define FACEBOOK_APP_ID @"150562561623295"
@@ -39,20 +41,16 @@ typedef void (^errorBlock)(NSError *error);
 - (void)logoutAndOnSuccess:(voidBlock)succBlock;
 
 // Graph API requests
-- (void)requestWithGraphPath:(NSString *)graphPath
-				   andParams:(NSDictionary *)params
-			   andHttpMethod:(NSString *)httpMethod
-				   onSuccess:(successBlock)succBlock
-					 onError:(errorBlock)errBlock;
-
-- (void)requestWithGraphPath:(NSString *)graphPath
-				   andParams:(NSDictionary *)params
-				   onSuccess:(successBlock)succBlock
-					 onError:(errorBlock)errBlock;
+- (void)fetchRequest:(JSGraphRequest *)graphRequest
+		   onSuccess:(successBlock)succBlock
+			 onError:(errorBlock)errBlock;
 
 - (void)requestWithGraphPath:(NSString *)graphPath
 				   onSuccess:(successBlock)succBlock
 					 onError:(errorBlock)errBlock;
+
+// Graph API batch requests
+
 
 
 @end
