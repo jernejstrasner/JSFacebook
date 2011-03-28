@@ -63,6 +63,7 @@ static void * volatile sharedInstance = nil;
 	// Blocks
 	[loginSucceededBlock_ release];
 	[loginFailedBlock_ release];
+	[logoutSucceededBlock_ release];
 	// Super
 	[super dealloc];
 }
@@ -134,7 +135,9 @@ static void * volatile sharedInstance = nil;
 	[self.facebook authorize:permissions delegate:self];
 }
 
-- (void)logout {
+- (void)logoutAndOnSuccess:(voidBlock)succBlock {
+	[logoutSucceededBlock_ release];
+	logoutSucceededBlock_ = [succBlock copy];
 	// Log out from Facebook
 	[self.facebook logout:self];
 }
@@ -154,9 +157,6 @@ static void * volatile sharedInstance = nil;
 	// Additional parameters
 	NSMutableDictionary *params_ = [NSMutableDictionary dictionaryWithDictionary:params];
 	[params_ setValue:@"json" forKey:@"format"];
-	if ([self.facebook isSessionValid]) {
-		[params_ setValue:self.facebook.accessToken forKey:@"access_token"];
-	}
 	
 	// Request
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -171,19 +171,31 @@ static void * volatile sharedInstance = nil;
 	}
 	[url appendString:gPath];
 
+	// Check how to append, with an ? or &
+	char glue;
+	if ([gPath rangeOfString:@"?"].location != NSNotFound) glue = '&';
+	else glue = '?';
+	
+	// Different parameters encoding for differet methods
 	if ([httpMethod isEqualToString:@"POST"]) {
 		// Generate a POST body from the parameters (supports images)
 		[request setHTTPBody:[self generatePOSTBody:params_]];
+		// Add the access token
+		if ([self.facebook isSessionValid]) {
+			[url appendFormat:@"%caccess_token=%@", glue, self.facebook.accessToken];
+		}
+		NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kStringBoundary];
+		[request setValue:contentType forHTTPHeaderField:@"Content-Type"];
 	} else {
+		// Add the access token
+		if ([self.facebook isSessionValid]) {
+			[params_ setValue:self.facebook.accessToken forKey:@"access_token"];
+		}
 		// Generate the GET URL encoded parameters
 		NSString *getParameters = [self generateGETParameters:params_];
-		// Check how to append, with an ? or &
-		char glue;
-		if ([gPath rangeOfString:@"?"].location != NSNotFound) glue = '&';
-		else glue = '?';
 		// Add to the URL
 		[url appendFormat:@"%c%@", glue, getParameters];
-	}
+	}	
 	
 	// Set the URL
 	[request setURL:[NSURL URLWithString:url]];
@@ -280,17 +292,17 @@ static void * volatile sharedInstance = nil;
 			UIImage *image = [params objectForKey:key];
 			NSData *data = UIImageJPEGRepresentation(image, kImageQuality);
 			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
+			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
 			[body appendData:[[NSString stringWithFormat:@"Content-Length: %d\r\n", [data length]] dataUsingEncoding:NSUTF8StringEncoding]];
 			[body appendData:[[NSString stringWithString:@"Content-Type: image/jpeg\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
 			[body appendData:data];
 		} else if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray array]]) {
 			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];        
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
+			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
 			[body appendData:[[value JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
 		} else {
 			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];        
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
+			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
 			[body appendData:[value dataUsingEncoding:NSUTF8StringEncoding]];
 		}
 	}
@@ -311,6 +323,7 @@ static void * volatile sharedInstance = nil;
 
 - (void)fbDidLogout {
 	DLog(@"Logged out!");
+	logoutSucceededBlock_();
 }
 
 - (void)fbDidNotLogin:(BOOL)cancelled {

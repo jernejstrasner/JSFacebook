@@ -29,20 +29,28 @@
 - (void)facebookDidLogin:(NSNotification *)notification {
 	// Test the Facebook API
 	JSFacebook *facebook = [JSFacebook sharedInstance];
-	[facebook requestWithGraphPath:@"/me/home" onSuccess:^(id responseObject) {
-		DLog(@"Response 1 received!");
+//	[facebook requestWithGraphPath:@"/me/home" onSuccess:^(id responseObject) {
+//		DLog(@"Response 1 received!");
+//	} onError:^(NSError *error) {
+//		DLog(@"Error 1: %@", [error localizedDescription]);
+//	}];
+//	[facebook requestWithGraphPath:@"/me/inbox" onSuccess:^(id responseObject) {
+//		DLog(@"Response 2 received!");
+//	} onError:^(NSError *error) {
+//		DLog(@"Error 2: %@", [error localizedDescription]);
+//	}];
+//	[facebook requestWithGraphPath:@"/me/feed" onSuccess:^(id responseObject) {
+//		DLog(@"Response 3 received!");
+//	} onError:^(NSError *error) {
+//		DLog(@"Error 3: %@", [error localizedDescription]);
+//	}];
+	// Post
+	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
+	[postParams setValue:@"Just testing :)" forKey:@"message"];
+	[facebook requestWithGraphPath:@"/me/feed" andParams:postParams andHttpMethod:@"POST" onSuccess:^(id responseObject) {
+		DLog(@"Status posted");
 	} onError:^(NSError *error) {
-		DLog(@"Error 1: %@", [error localizedDescription]);
-	}];
-	[facebook requestWithGraphPath:@"/me/inbox" onSuccess:^(id responseObject) {
-		DLog(@"Response 2 received!");
-	} onError:^(NSError *error) {
-		DLog(@"Error 2: %@", [error localizedDescription]);
-	}];
-	[facebook requestWithGraphPath:@"/me/feed" onSuccess:^(id responseObject) {
-		DLog(@"Response 3 received!");
-	} onError:^(NSError *error) {
-		DLog(@"Error 3: %@", [error localizedDescription]);
+		DLog(@"Error while posting status: %@", [error localizedDescription]);
 	}];
 }
 

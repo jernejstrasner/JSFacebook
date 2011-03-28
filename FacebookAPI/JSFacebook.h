@@ -27,6 +27,7 @@ typedef void (^errorBlock)(NSError *error);
 	// Login blocks
 	voidBlock loginSucceededBlock_;
 	voidBlock loginFailedBlock_;
+	voidBlock logoutSucceededBlock_;
 }
 
 @property (nonatomic, readonly) Facebook *facebook;
@@ -35,7 +36,7 @@ typedef void (^errorBlock)(NSError *error);
 
 // Authorization
 - (void)loginAndOnSuccess:(voidBlock)succBlock onError:(voidBlock)errBlock;
-- (void)logout;
+- (void)logoutAndOnSuccess:(voidBlock)succBlock;
 
 // Graph API requests
 - (void)requestWithGraphPath:(NSString *)graphPath

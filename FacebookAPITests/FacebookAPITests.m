@@ -8,6 +8,8 @@
 
 #import "FacebookAPITests.h"
 
+#import "JSFacebook.h"
+
 
 @implementation FacebookAPITests
 
@@ -25,9 +27,10 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testFacebookNetworkQueue
 {
-    STFail(@"Unit tests are not implemented yet in FacebookAPITests");
+	JSFacebook *facebook = [JSFacebook sharedInstance];
+	STAssertNotNil(facebook, @"Facebook should not be nil!");
 }
 
 @end
