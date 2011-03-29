@@ -13,11 +13,15 @@
 	NSString *graphPath_;
 	NSString *httpMethod_;
 	NSMutableDictionary *params_;
+	NSString *name_;
+	BOOL omitResponseOnSuccess_;
 }
 
 @property (nonatomic, retain) NSString *graphPath;
 @property (nonatomic, retain) NSString *httpMethod;
 @property (nonatomic, readonly) NSDictionary *parameters;
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, assign) BOOL omitResponseOnSuccess;
 
 - (id)initWithGraphPath:(NSString *)graphPath;
 

@@ -18,6 +18,7 @@
 typedef void (^voidBlock)(void);
 typedef void (^successBlock)(id responseObject);
 typedef void (^errorBlock)(NSError *error);
+typedef void (^successBlockBatch)(NSArray *responseObjects);
 
 @interface JSFacebook : NSObject <FBSessionDelegate> {
 	Facebook *facebook_;
@@ -50,7 +51,9 @@ typedef void (^errorBlock)(NSError *error);
 					 onError:(errorBlock)errBlock;
 
 // Graph API batch requests
-
+- (void)fetchRequests:(NSArray *)graphRequests
+			onSuccess:(successBlockBatch)succBlock
+			  onError:(errorBlock)errBlock;
 
 
 @end

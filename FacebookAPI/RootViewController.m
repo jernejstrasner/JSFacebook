@@ -44,14 +44,22 @@
 //	} onError:^(NSError *error) {
 //		DLog(@"Error 3: %@", [error localizedDescription]);
 //	}];
-	// Post
-	JSGraphRequest *graphRequest = [JSGraphRequest requestWithGraphPath:@"/me/feed"];
-	[graphRequest setHttpMethod:@"POST"];
-	[graphRequest addParameter:@"message" withValue:@"Just testing :)"];
-	[facebook fetchRequest:graphRequest onSuccess:^(id responseObject) {
-		DLog(@"Posted to the wall!");
+//	// Post
+//	JSGraphRequest *graphRequest = [JSGraphRequest requestWithGraphPath:@"/me/feed"];
+//	[graphRequest setHttpMethod:@"POST"];
+//	[graphRequest addParameter:@"message" withValue:@"Just testing :)"];
+//	[facebook fetchRequest:graphRequest onSuccess:^(id responseObject) {
+//		DLog(@"Posted to the wall!");
+//	} onError:^(NSError *error) {
+//		DLog(@"Error posting: %@", [error localizedDescription]);
+//	}];
+	JSGraphRequest *request1 = [JSGraphRequest requestWithGraphPath:@"me/friends?limit=5"];
+	[request1 setName:@"get-friends"];
+	JSGraphRequest *request2 = [JSGraphRequest requestWithGraphPath:@"?ids={result=get-friends:$.data..id}"];
+	[facebook fetchRequests:[NSArray arrayWithObjects:request1, request2, nil] onSuccess:^(NSArray *responseObjects) {
+		DLog(@"Responses:\n%@", responseObjects);
 	} onError:^(NSError *error) {
-		DLog(@"Error posting: %@", [error localizedDescription]);
+		DLog(@"Error: %@", [error localizedDescription]);
 	}];
 }
 

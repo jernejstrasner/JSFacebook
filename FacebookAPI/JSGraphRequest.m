@@ -16,6 +16,8 @@
 @synthesize graphPath=graphPath_;
 @synthesize httpMethod=httpMethod_;
 @synthesize parameters=params_;
+@synthesize name=name_;
+@synthesize omitResponseOnSuccess=omitResponseOnSuccess_;
 
 - (void)addParameter:(NSString *)key withValue:(id)value {
 	// Create the parameters dictionary if it doesn't exist
@@ -35,6 +37,7 @@
 	self = [super init];
 	if (self) {
 		httpMethod_ = [[NSString alloc] initWithString:@"GET"];
+		omitResponseOnSuccess_ = YES;
 	}
 	return self;
 }
@@ -44,6 +47,7 @@
 	if (self) {
 		graphPath_ = [graphPath retain];
 		httpMethod_ = [[NSString alloc] initWithString:@"GET"];
+		omitResponseOnSuccess_ = YES;
 	}
 	return self;
 }
@@ -52,6 +56,7 @@
 	[graphPath_ release];
 	[httpMethod_ release];
 	[params_ release];
+	[name_ release];
 	[super dealloc];
 }
 
