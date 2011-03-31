@@ -3,7 +3,7 @@
 //  FacebookAPI
 //
 //  Created by Jernej Strasner on 3/26/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
 #import "FacebookAPIAppDelegate.h"
@@ -22,9 +22,65 @@
 	self.window.rootViewController = self.navigationController;
 	[self.window makeKeyAndVisible];
 	
+	// Permissions
+	NSArray *permissions = [NSArray arrayWithObjects:
+							@"read_stream",
+							@"read_mailbox",
+							@"read_friendlists",
+							@"user_about_me",
+							@"user_activities",
+							@"user_birthday",
+							@"user_education_history",
+							@"user_events",
+							@"user_groups",
+							@"user_hometown",
+							@"user_interests",
+							@"user_likes",
+							@"user_location",
+							@"user_notes",
+							@"user_online_presence",
+							@"user_photo_video_tags",
+							@"user_photos",
+							@"user_relationships",
+							@"user_relationship_details",
+							@"user_religion_politics",
+							@"user_status",
+							@"user_videos",
+							@"user_website",
+							@"user_website",
+							@"user_work_history",
+							@"email",
+							@"friends_about_me",
+							@"friends_activities",
+							@"friends_birthday",
+							@"friends_education_history",
+							@"friends_events",
+							@"friends_groups",
+							@"friends_hometown",
+							@"friends_interests",
+							@"friends_likes",
+							@"friends_location",
+							@"friends_notes",
+							@"friends_online_presence",
+							@"friends_photo_video_tags",
+							@"friends_photos",
+							@"friends_relationships",
+							@"friends_relationship_details",
+							@"friends_religion_politics",
+							@"friends_status",
+							@"friends_videos",
+							@"friends_website",
+							@"friends_website",
+							@"friends_work_history",
+							// Publishing
+							@"publish_stream",
+							@"create_event",
+							@"rsvp_event",
+							nil];
+
 	// Login to Facebook
 	JSFacebook *facebook = [JSFacebook sharedInstance];
-	[facebook loginAndOnSuccess:^{
+	[facebook loginWithPermissions:permissions onSuccess:^{
 		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidLoginNotification object:facebook];
 	} onError:^{
 		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidNotLoginNotification object:facebook];

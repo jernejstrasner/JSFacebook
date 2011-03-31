@@ -3,7 +3,7 @@
 //  FacebookAPI
 //
 //  Created by Jernej Strasner on 3/26/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
 #import "JSFacebook.h"
@@ -11,17 +11,12 @@
 #import <libkern/OSAtomic.h>
 #import "JSON.h"
 
-@interface JSFacebook (Private)
+// Constants
+NSString * const kJSFacebookAppID = @"150562561623295"; // Change to your facebook app ID
+float const kJSFacebookImageQuality = 0.8; // JPEG compression ration when uploading images
 
-- (NSString *)generateGETParameters:(NSDictionary *)params;
-- (NSData *)generatePOSTBody:(NSDictionary *)params;
-
-@end
-
-// HTTP POST request generation parameters
-static NSString *kStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
-static float kImageQuality = 0.8;
-static NSString *kGraphAPIEndpoint = @"https://graph.facebook.com/";
+NSString * const kJSFacebookStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
+NSString * const kJSFacebookGraphAPIEndpoint = @"https://graph.facebook.com/";
 
 @implementation JSFacebook
 
@@ -49,7 +44,7 @@ static void * volatile sharedInstance = nil;
 	self = [super init];
 	if (self) {
 		// Init Facebook
-		facebook_ = [[Facebook alloc] initWithAppId:FACEBOOK_APP_ID];
+		facebook_ = [[Facebook alloc] initWithAppId:kJSFacebookAppID];
 		// Init the network queue
 		network_queue = dispatch_queue_create("com.jsfacebook.network", NULL);
 	}
@@ -72,66 +67,14 @@ static void * volatile sharedInstance = nil;
 #pragma mark - Methods
 #pragma mark - Authentication
 
-- (void)loginAndOnSuccess:(voidBlock)succBlock onError:(voidBlock)errBlock {
+- (void)loginWithPermissions:(NSArray *)permissions
+				   onSuccess:(voidBlock)succBlock
+					 onError:(voidBlock)errBlock
+{
 	[loginSucceededBlock_ release];
 	loginSucceededBlock_ = [succBlock copy];
 	[loginFailedBlock_ release];
 	loginFailedBlock_ = [errBlock copy];
-	// Permissions
-	NSArray *permissions = [NSArray arrayWithObjects:
-							  @"read_stream",
-							  @"read_mailbox",
-							  @"read_friendlists",
-							  @"user_about_me",
-							  @"user_activities",
-							  @"user_birthday",
-							  @"user_education_history",
-							  @"user_events",
-							  @"user_groups",
-							  @"user_hometown",
-							  @"user_interests",
-							  @"user_likes",
-							  @"user_location",
-							  @"user_notes",
-							  @"user_online_presence",
-							  @"user_photo_video_tags",
-							  @"user_photos",
-							  @"user_relationships",
-							  @"user_relationship_details",
-							  @"user_religion_politics",
-							  @"user_status",
-							  @"user_videos",
-							  @"user_website",
-							  @"user_website",
-							  @"user_work_history",
-							  @"email",
-							  @"friends_about_me",
-							  @"friends_activities",
-							  @"friends_birthday",
-							  @"friends_education_history",
-							  @"friends_events",
-							  @"friends_groups",
-							  @"friends_hometown",
-							  @"friends_interests",
-							  @"friends_likes",
-							  @"friends_location",
-							  @"friends_notes",
-							  @"friends_online_presence",
-							  @"friends_photo_video_tags",
-							  @"friends_photos",
-							  @"friends_relationships",
-							  @"friends_relationship_details",
-							  @"friends_religion_politics",
-							  @"friends_status",
-							  @"friends_videos",
-							  @"friends_website",
-							  @"friends_website",
-							  @"friends_work_history",
-							  // Publishing
-							  @"publish_stream",
-							  @"create_event",
-							  @"rsvp_event",
-							  nil];
 	// Authenticate
 	[self.facebook authorize:permissions delegate:self];
 }
@@ -145,7 +88,7 @@ static void * volatile sharedInstance = nil;
 
 #pragma mark - Graph API requests
 
-- (void)fetchRequest:(JSGraphRequest *)graphRequest
+- (void)fetchRequest:(JSFacebookRequest *)graphRequest
 		   onSuccess:(successBlock)succBlock
 			 onError:(errorBlock)errBlock
 {
@@ -163,7 +106,7 @@ static void * volatile sharedInstance = nil;
 	[request setHTTPMethod:graphRequest.httpMethod];
 	
 	// URL
-	NSMutableString *url = [NSMutableString stringWithString:kGraphAPIEndpoint];
+	NSMutableString *url = [NSMutableString stringWithString:kJSFacebookGraphAPIEndpoint];
 	// Remove the slash from the graph path beginning
 	NSString *gPath = graphRequest.graphPath;
 	while ([gPath hasPrefix:@"/"]) {
@@ -179,12 +122,12 @@ static void * volatile sharedInstance = nil;
 	// Different parameters encoding for differet methods
 	if ([graphRequest.httpMethod isEqualToString:@"POST"]) {
 		// Generate a POST body from the parameters (supports images)
-		[request setHTTPBody:[self generatePOSTBody:params_]];
-		NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kStringBoundary];
+		[request setHTTPBody:[params_ generatePOSTBody]];
+		NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kJSFacebookStringBoundary];
 		[request setValue:contentType forHTTPHeaderField:@"Content-Type"];
 	} else {
 		// Generate the GET URL encoded parameters
-		NSString *getParameters = [self generateGETParameters:params_];
+		NSString *getParameters = [params_ generateGETParameters];
 		// Add to the URL
 		[url appendFormat:@"%c%@", glue, getParameters];
 	}	
@@ -231,7 +174,7 @@ static void * volatile sharedInstance = nil;
 				   onSuccess:(successBlock)succBlock
 					 onError:(errorBlock)errBlock
 {
-	JSGraphRequest *graphRequest = [[[JSGraphRequest alloc] initWithGraphPath:graphPath] autorelease];
+	JSFacebookRequest *graphRequest = [[[JSFacebookRequest alloc] initWithGraphPath:graphPath] autorelease];
 	[self fetchRequest:graphRequest onSuccess:succBlock onError:errBlock];
 }
 
@@ -254,12 +197,12 @@ static void * volatile sharedInstance = nil;
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setHTTPMethod:@"POST"];
 
-	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kStringBoundary];
+	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kJSFacebookStringBoundary];
 	[request setValue:contentType forHTTPHeaderField:@"Content-Type"];
 
 	NSMutableArray *batchData = [[NSMutableArray alloc] init];
 	// Iterate trough the separate batch requests
-	for (JSGraphRequest *graphRequest in graphRequests) {
+	for (JSFacebookRequest *graphRequest in graphRequests) {
 		// Dictionary for single request parameters
 		NSMutableDictionary *batchParams = [NSMutableDictionary dictionary];
 		// Remove the slash from the graph path beginning
@@ -287,7 +230,7 @@ static void * volatile sharedInstance = nil;
 			// Add the url
 			[batchParams setValue:gPath forKey:@"relative_url"];
 			// Generate a POST body from the parameters (supports images)
-			[batchParams setValue:[self generateGETParameters:graphRequest.parameters] forKey:@"body"];
+			[batchParams setValue:[graphRequest.parameters generatePOSTBody] forKey:@"body"];
 		} else {
 			// Check how to append, with an ? or &
 			char glue;
@@ -295,7 +238,7 @@ static void * volatile sharedInstance = nil;
 			else glue = '?';
 			if ([graphRequest.parameters count] > 0) {
 				// Generate the GET URL encoded parameters
-				NSString *getParameters = [self generateGETParameters:graphRequest.parameters];
+				NSString *getParameters = [graphRequest.parameters generateGETParameters];
 				// Add to the dictionary
 				[batchParams setValue:[NSString stringWithFormat:@"%@%c%@", gPath, glue, getParameters] forKey:@"relative_url"];
 			} else {
@@ -310,10 +253,10 @@ static void * volatile sharedInstance = nil;
 	[batchData release];
 	
 	// Add the POST body
-	[request setHTTPBody:[self generatePOSTBody:params_]];
+	[request setHTTPBody:[params_ generatePOSTBody]];
 	
 	// Set the URL
-	[request setURL:[NSURL URLWithString:kGraphAPIEndpoint]];
+	[request setURL:[NSURL URLWithString:kJSFacebookGraphAPIEndpoint]];
 	
 	// Misc. properties
 	[request setTimeoutInterval:20.0];
@@ -358,70 +301,6 @@ static void * volatile sharedInstance = nil;
 	});
 	
 	[request release];
-}
-
-#pragma mark - Utility methods
-
-- (NSString *)generateGETParameters:(NSDictionary *)params {
-	NSMutableArray *pairs = [NSMutableArray new];
-	for (NSString *key in params) {
-		// Get the object
-		id obj = [params valueForKey:key];
-		// Encode arrays and dictionaries in JSON
-		if ([obj isKindOfClass:[NSArray class]] || [obj isKindOfClass:[NSDictionary class]]) {
-			obj = [obj JSONRepresentation];
-		}
-		// Escaping
-		NSString *escaped_value = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, /* allocator */
-																					  (CFStringRef)obj,
-																					  NULL, /* charactersToLeaveUnescaped */
-																					  (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-																					  kCFStringEncodingUTF8);
-		// Generate http request parameter pairs
-		[pairs addObject:[NSString stringWithFormat:@"%@=%@", key, escaped_value]];
-		[escaped_value release];
-	}
-	
-	NSString *parameters = [pairs componentsJoinedByString:@"&"];
-	[pairs release];
-	
-	return parameters;
-}
-
-- (NSData *)generatePOSTBody:(NSDictionary *)params {
-	[params retain];
-	
-	NSMutableData *body = [NSMutableData data];
-	NSString *beginLine = [NSString stringWithFormat:@"\r\n--%@\r\n", kStringBoundary];
-	
-	[body appendData:[[NSString stringWithFormat:@"--%@\r\n", kStringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	for (id key in params) {
-		id value = [params valueForKey:key];
-		if ([value isKindOfClass:[UIImage class]]) {
-			UIImage *image = [params objectForKey:key];
-			NSData *data = UIImageJPEGRepresentation(image, kImageQuality);
-			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[[NSString stringWithFormat:@"Content-Length: %d\r\n", [data length]] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[[NSString stringWithString:@"Content-Type: image/jpeg\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:data];
-		} else if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray class]]) {
-			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];        
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[[value JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-		} else {
-			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];        
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[value dataUsingEncoding:NSUTF8StringEncoding]];
-		}
-	}
-	[params release];
-	params = nil;
-	
-	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", kStringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	return body;
 }
 
 #pragma mark - FBSessionDelegate

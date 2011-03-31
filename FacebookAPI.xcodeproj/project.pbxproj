@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19521E0B134488210042E084 /* JSFacebook-NSDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 19521E0A134488210042E084 /* JSFacebook-NSDictionary.m */; };
 		1958B97A133E896500C90D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B979133E896500C90D1A /* UIKit.framework */; };
 		1958B97C133E896500C90D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B97B133E896500C90D1A /* Foundation.framework */; };
 		1958B97E133E896500C90D1A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B97D133E896500C90D1A /* CoreGraphics.framework */; };
@@ -35,7 +36,7 @@
 		1958B9DA133E905B00C90D1A /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9CF133E905B00C90D1A /* SBJsonWriter.m */; };
 		1958B9DF133E92F600C90D1A /* JSFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9DE133E92F600C90D1A /* JSFacebook.m */; };
 		1958B9F3133EA5AB00C90D1A /* fbicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1958B9F2133EA5AB00C90D1A /* fbicon.png */; };
-		195FB8E913413593006137FF /* JSGraphRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 195FB8E813413593006137FF /* JSGraphRequest.m */; };
+		195FB8E913413593006137FF /* JSFacebookRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 195FB8E813413593006137FF /* JSFacebookRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		19521E09134488210042E084 /* JSFacebook-NSDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSFacebook-NSDictionary.h"; sourceTree = "<group>"; };
+		19521E0A134488210042E084 /* JSFacebook-NSDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSFacebook-NSDictionary.m"; sourceTree = "<group>"; };
 		1958B975133E896500C90D1A /* FacebookAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacebookAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1958B979133E896500C90D1A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1958B97B133E896500C90D1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -95,8 +98,8 @@
 		1958B9DD133E92F600C90D1A /* JSFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSFacebook.h; sourceTree = "<group>"; };
 		1958B9DE133E92F600C90D1A /* JSFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSFacebook.m; sourceTree = "<group>"; };
 		1958B9F2133EA5AB00C90D1A /* fbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fbicon.png; path = ../fbicon.png; sourceTree = "<group>"; };
-		195FB8E713413593006137FF /* JSGraphRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSGraphRequest.h; sourceTree = "<group>"; };
-		195FB8E813413593006137FF /* JSGraphRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSGraphRequest.m; sourceTree = "<group>"; };
+		195FB8E713413593006137FF /* JSFacebookRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSFacebookRequest.h; sourceTree = "<group>"; };
+		195FB8E813413593006137FF /* JSFacebookRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSFacebookRequest.m; sourceTree = "<group>"; };
 		197A727C133FF93100590300 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -247,8 +250,10 @@
 			children = (
 				1958B9DD133E92F600C90D1A /* JSFacebook.h */,
 				1958B9DE133E92F600C90D1A /* JSFacebook.m */,
-				195FB8E713413593006137FF /* JSGraphRequest.h */,
-				195FB8E813413593006137FF /* JSGraphRequest.m */,
+				195FB8E713413593006137FF /* JSFacebookRequest.h */,
+				195FB8E813413593006137FF /* JSFacebookRequest.m */,
+				19521E09134488210042E084 /* JSFacebook-NSDictionary.h */,
+				19521E0A134488210042E084 /* JSFacebook-NSDictionary.m */,
 			);
 			name = FBAPI;
 			sourceTree = "<group>";
@@ -297,6 +302,9 @@
 /* Begin PBXProject section */
 		1958B96C133E896400C90D1A /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = JernejStrasner.com;
+			};
 			buildConfigurationList = 1958B96F133E896400C90D1A /* Build configuration list for PBXProject "FacebookAPI" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -374,7 +382,8 @@
 				1958B9D9133E905B00C90D1A /* SBJsonParser.m in Sources */,
 				1958B9DA133E905B00C90D1A /* SBJsonWriter.m in Sources */,
 				1958B9DF133E92F600C90D1A /* JSFacebook.m in Sources */,
-				195FB8E913413593006137FF /* JSGraphRequest.m in Sources */,
+				195FB8E913413593006137FF /* JSFacebookRequest.m in Sources */,
+				19521E0B134488210042E084 /* JSFacebook-NSDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

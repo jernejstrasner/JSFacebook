@@ -3,18 +3,24 @@
 //  FacebookAPI
 //
 //  Created by Jernej Strasner on 3/26/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <dispatch/dispatch.h>
 
+#import "JSFacebook-NSDictionary.h"
+
 #import "FBConnect.h"
-#import "JSGraphRequest.h"
+#import "JSFacebookRequest.h"
 
+// Constants
+extern NSString * const kJSFacebookStringBoundary;
+extern float const kJSFacebookImageQuality;
+extern NSString * const kJSFacebookGraphAPIEndpoint;
+extern NSString * const kJSFacebookAppID;
 
-#define FACEBOOK_APP_ID @"150562561623295"
-
+// Typedefs
 typedef void (^voidBlock)(void);
 typedef void (^successBlock)(id responseObject);
 typedef void (^errorBlock)(NSError *error);
@@ -38,11 +44,13 @@ typedef void (^successBlockBatch)(NSArray *responseObjects);
 + (JSFacebook *)sharedInstance;
 
 // Authorization
-- (void)loginAndOnSuccess:(voidBlock)succBlock onError:(voidBlock)errBlock;
+- (void)loginWithPermissions:(NSArray *)permissions
+				   onSuccess:(voidBlock)succBlock
+					 onError:(voidBlock)errBlock;
 - (void)logoutAndOnSuccess:(voidBlock)succBlock;
 
 // Graph API requests
-- (void)fetchRequest:(JSGraphRequest *)graphRequest
+- (void)fetchRequest:(JSFacebookRequest *)graphRequest
 		   onSuccess:(successBlock)succBlock
 			 onError:(errorBlock)errBlock;
 
@@ -54,6 +62,5 @@ typedef void (^successBlockBatch)(NSArray *responseObjects);
 - (void)fetchRequests:(NSArray *)graphRequests
 			onSuccess:(successBlockBatch)succBlock
 			  onError:(errorBlock)errBlock;
-
 
 @end

@@ -3,7 +3,7 @@
 //  FacebookAPI
 //
 //  Created by Jernej Strasner on 3/26/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
 #import "RootViewController.h"
@@ -27,8 +27,8 @@
  */
 
 - (void)facebookDidLogin:(NSNotification *)notification {
-	// Test the Facebook API
-	JSFacebook *facebook = [JSFacebook sharedInstance];
+//	// Test the Facebook API
+//	JSFacebook *facebook = [JSFacebook sharedInstance];
 //	[facebook requestWithGraphPath:@"/me/home" onSuccess:^(id responseObject) {
 //		DLog(@"Response 1 received!");
 //	} onError:^(NSError *error) {
@@ -53,14 +53,14 @@
 //	} onError:^(NSError *error) {
 //		DLog(@"Error posting: %@", [error localizedDescription]);
 //	}];
-	JSGraphRequest *request1 = [JSGraphRequest requestWithGraphPath:@"me/friends?limit=5"];
-	[request1 setName:@"get-friends"];
-	JSGraphRequest *request2 = [JSGraphRequest requestWithGraphPath:@"?ids={result=get-friends:$.data..id}"];
-	[facebook fetchRequests:[NSArray arrayWithObjects:request1, request2, nil] onSuccess:^(NSArray *responseObjects) {
-		DLog(@"Responses:\n%@", responseObjects);
-	} onError:^(NSError *error) {
-		DLog(@"Error: %@", [error localizedDescription]);
-	}];
+//	JSGraphRequest *request1 = [JSGraphRequest requestWithGraphPath:@"me/friends?limit=5"];
+//	[request1 setName:@"get-friends"];
+//	JSGraphRequest *request2 = [JSGraphRequest requestWithGraphPath:@"?ids={result=get-friends:$.data..id}"];
+//	[facebook fetchRequests:[NSArray arrayWithObjects:request1, request2, nil] onSuccess:^(NSArray *responseObjects) {
+//		DLog(@"Responses:\n%@", responseObjects);
+//	} onError:^(NSError *error) {
+//		DLog(@"Error: %@", [error localizedDescription]);
+//	}];
 }
 
 // Customize the number of sections in the table view.
