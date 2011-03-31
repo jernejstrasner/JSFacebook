@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1910371A13452CA300922D54 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 1910371913452CA300922D54 /* README */; };
 		19521E0B134488210042E084 /* JSFacebook-NSDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 19521E0A134488210042E084 /* JSFacebook-NSDictionary.m */; };
 		1958B97A133E896500C90D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B979133E896500C90D1A /* UIKit.framework */; };
 		1958B97C133E896500C90D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B97B133E896500C90D1A /* Foundation.framework */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1910371913452CA300922D54 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		19521E09134488210042E084 /* JSFacebook-NSDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSFacebook-NSDictionary.h"; sourceTree = "<group>"; };
 		19521E0A134488210042E084 /* JSFacebook-NSDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSFacebook-NSDictionary.m"; sourceTree = "<group>"; };
 		1958B975133E896500C90D1A /* FacebookAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacebookAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,6 +184,7 @@
 				1958B985133E896500C90D1A /* FacebookAPI-Prefix.pch */,
 				197A727C133FF93100590300 /* Constants.h */,
 				1958B986133E896500C90D1A /* main.m */,
+				1910371913452CA300922D54 /* README */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				1958B993133E896500C90D1A /* RootViewController.xib in Resources */,
 				1958B9D1133E905B00C90D1A /* FBDialog.bundle in Resources */,
 				1958B9F3133EA5AB00C90D1A /* fbicon.png in Resources */,
+				1910371A13452CA300922D54 /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
