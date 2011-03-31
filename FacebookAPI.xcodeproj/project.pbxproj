@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1910371A13452CA300922D54 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 1910371913452CA300922D54 /* README */; };
+		1910371D1345326300922D54 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 1910371C1345326300922D54 /* README */; };
 		19521E0B134488210042E084 /* JSFacebook-NSDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 19521E0A134488210042E084 /* JSFacebook-NSDictionary.m */; };
 		1958B97A133E896500C90D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B979133E896500C90D1A /* UIKit.framework */; };
 		1958B97C133E896500C90D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B97B133E896500C90D1A /* Foundation.framework */; };
@@ -18,12 +18,6 @@
 		1958B98D133E896500C90D1A /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1958B98B133E896500C90D1A /* MainWindow.xib */; };
 		1958B990133E896500C90D1A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B98F133E896500C90D1A /* RootViewController.m */; };
 		1958B993133E896500C90D1A /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1958B991133E896500C90D1A /* RootViewController.xib */; };
-		1958B99A133E896500C90D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B979133E896500C90D1A /* UIKit.framework */; };
-		1958B99B133E896500C90D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B97B133E896500C90D1A /* Foundation.framework */; };
-		1958B99C133E896500C90D1A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B97D133E896500C90D1A /* CoreGraphics.framework */; };
-		1958B9A4133E896500C90D1A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1958B9A2133E896500C90D1A /* InfoPlist.strings */; };
-		1958B9A7133E896500C90D1A /* FacebookAPITests.h in Resources */ = {isa = PBXBuildFile; fileRef = 1958B9A6133E896500C90D1A /* FacebookAPITests.h */; };
-		1958B9A9133E896500C90D1A /* FacebookAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9A8133E896500C90D1A /* FacebookAPITests.m */; };
 		1958B9D0133E905B00C90D1A /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9B9133E905B00C90D1A /* Facebook.m */; };
 		1958B9D1133E905B00C90D1A /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1958B9BB133E905B00C90D1A /* FBDialog.bundle */; };
 		1958B9D2133E905B00C90D1A /* FBDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9BD133E905B00C90D1A /* FBDialog.m */; };
@@ -40,18 +34,8 @@
 		195FB8E913413593006137FF /* JSFacebookRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 195FB8E813413593006137FF /* JSFacebookRequest.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		1958B99D133E896500C90D1A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1958B96C133E896400C90D1A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1958B974133E896500C90D1A;
-			remoteInfo = FacebookAPI;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		1910371913452CA300922D54 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		1910371C1345326300922D54 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = SOURCE_ROOT; };
 		19521E09134488210042E084 /* JSFacebook-NSDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSFacebook-NSDictionary.h"; sourceTree = "<group>"; };
 		19521E0A134488210042E084 /* JSFacebook-NSDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSFacebook-NSDictionary.m"; sourceTree = "<group>"; };
 		1958B975133E896500C90D1A /* FacebookAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacebookAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,12 +52,6 @@
 		1958B98E133E896500C90D1A /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		1958B98F133E896500C90D1A /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		1958B992133E896500C90D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
-		1958B999133E896500C90D1A /* FacebookAPITests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FacebookAPITests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1958B9A1133E896500C90D1A /* FacebookAPITests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FacebookAPITests-Info.plist"; sourceTree = "<group>"; };
-		1958B9A3133E896500C90D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1958B9A5133E896500C90D1A /* FacebookAPITests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FacebookAPITests-Prefix.pch"; sourceTree = "<group>"; };
-		1958B9A6133E896500C90D1A /* FacebookAPITests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FacebookAPITests.h; sourceTree = "<group>"; };
-		1958B9A8133E896500C90D1A /* FacebookAPITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FacebookAPITests.m; sourceTree = "<group>"; };
 		1958B9B8133E905B00C90D1A /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Facebook.h; path = "../../Downloads/facebook-facebook-ios-sdk-479f284/src/Facebook.h"; sourceTree = "<group>"; };
 		1958B9B9133E905B00C90D1A /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Facebook.m; path = "../../Downloads/facebook-facebook-ios-sdk-479f284/src/Facebook.m"; sourceTree = "<group>"; };
 		1958B9BA133E905B00C90D1A /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBConnect.h; path = "../../Downloads/facebook-facebook-ios-sdk-479f284/src/FBConnect.h"; sourceTree = "<group>"; };
@@ -116,16 +94,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1958B995133E896500C90D1A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1958B99A133E896500C90D1A /* UIKit.framework in Frameworks */,
-				1958B99B133E896500C90D1A /* Foundation.framework in Frameworks */,
-				1958B99C133E896500C90D1A /* CoreGraphics.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -133,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				1958B97F133E896500C90D1A /* FacebookAPI */,
-				1958B99F133E896500C90D1A /* FacebookAPITests */,
 				1958B978133E896500C90D1A /* Frameworks */,
 				1958B976133E896500C90D1A /* Products */,
 			);
@@ -143,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				1958B975133E896500C90D1A /* FacebookAPI.app */,
-				1958B999133E896500C90D1A /* FacebookAPITests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,33 +144,13 @@
 		1958B980133E896500C90D1A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1910371C1345326300922D54 /* README */,
 				1958B9F2133EA5AB00C90D1A /* fbicon.png */,
 				1958B981133E896500C90D1A /* FacebookAPI-Info.plist */,
 				1958B982133E896500C90D1A /* InfoPlist.strings */,
 				1958B985133E896500C90D1A /* FacebookAPI-Prefix.pch */,
 				197A727C133FF93100590300 /* Constants.h */,
 				1958B986133E896500C90D1A /* main.m */,
-				1910371913452CA300922D54 /* README */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		1958B99F133E896500C90D1A /* FacebookAPITests */ = {
-			isa = PBXGroup;
-			children = (
-				1958B9A6133E896500C90D1A /* FacebookAPITests.h */,
-				1958B9A8133E896500C90D1A /* FacebookAPITests.m */,
-				1958B9A0133E896500C90D1A /* Supporting Files */,
-			);
-			path = FacebookAPITests;
-			sourceTree = "<group>";
-		};
-		1958B9A0133E896500C90D1A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				1958B9A1133E896500C90D1A /* FacebookAPITests-Info.plist */,
-				1958B9A2133E896500C90D1A /* InfoPlist.strings */,
-				1958B9A5133E896500C90D1A /* FacebookAPITests-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -281,25 +227,6 @@
 			productReference = 1958B975133E896500C90D1A /* FacebookAPI.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1958B998133E896500C90D1A /* FacebookAPITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1958B9AF133E896500C90D1A /* Build configuration list for PBXNativeTarget "FacebookAPITests" */;
-			buildPhases = (
-				1958B994133E896500C90D1A /* Sources */,
-				1958B995133E896500C90D1A /* Frameworks */,
-				1958B996133E896500C90D1A /* Resources */,
-				1958B997133E896500C90D1A /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1958B99E133E896500C90D1A /* PBXTargetDependency */,
-			);
-			name = FacebookAPITests;
-			productName = FacebookAPITests;
-			productReference = 1958B999133E896500C90D1A /* FacebookAPITests.octest */;
-			productType = "com.apple.product-type.bundle";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -321,7 +248,6 @@
 			projectRoot = "";
 			targets = (
 				1958B974133E896500C90D1A /* FacebookAPI */,
-				1958B998133E896500C90D1A /* FacebookAPITests */,
 			);
 		};
 /* End PBXProject section */
@@ -336,36 +262,11 @@
 				1958B993133E896500C90D1A /* RootViewController.xib in Resources */,
 				1958B9D1133E905B00C90D1A /* FBDialog.bundle in Resources */,
 				1958B9F3133EA5AB00C90D1A /* fbicon.png in Resources */,
-				1910371A13452CA300922D54 /* README in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1958B996133E896500C90D1A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1958B9A4133E896500C90D1A /* InfoPlist.strings in Resources */,
-				1958B9A7133E896500C90D1A /* FacebookAPITests.h in Resources */,
+				1910371D1345326300922D54 /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		1958B997133E896500C90D1A /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1958B971133E896500C90D1A /* Sources */ = {
@@ -391,23 +292,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1958B994133E896500C90D1A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1958B9A9133E896500C90D1A /* FacebookAPITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		1958B99E133E896500C90D1A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1958B974133E896500C90D1A /* FacebookAPI */;
-			targetProxy = 1958B99D133E896500C90D1A /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		1958B982133E896500C90D1A /* InfoPlist.strings */ = {
@@ -432,14 +317,6 @@
 				1958B992133E896500C90D1A /* en */,
 			);
 			name = RootViewController.xib;
-			sourceTree = "<group>";
-		};
-		1958B9A2133E896500C90D1A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1958B9A3133E896500C90D1A /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -509,50 +386,6 @@
 			};
 			name = Release;
 		};
-		1958B9B0133E896500C90D1A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FacebookAPI.app/FacebookAPI";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FacebookAPITests/FacebookAPITests-Prefix.pch";
-				INFOPLIST_FILE = "FacebookAPITests/FacebookAPITests-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					SenTestingKit,
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		1958B9B1133E896500C90D1A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FacebookAPI.app/FacebookAPI";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FacebookAPITests/FacebookAPITests-Prefix.pch";
-				INFOPLIST_FILE = "FacebookAPITests/FacebookAPITests-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					SenTestingKit,
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -570,15 +403,6 @@
 			buildConfigurations = (
 				1958B9AD133E896500C90D1A /* Debug */,
 				1958B9AE133E896500C90D1A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1958B9AF133E896500C90D1A /* Build configuration list for PBXNativeTarget "FacebookAPITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1958B9B0133E896500C90D1A /* Debug */,
-				1958B9B1133E896500C90D1A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
