@@ -306,17 +306,14 @@ static void * volatile sharedInstance = nil;
 #pragma mark - FBSessionDelegate
 
 - (void)fbDidLogin {
-	DLog(@"Logged in!");
 	loginSucceededBlock_();
 }
 
 - (void)fbDidLogout {
-	DLog(@"Logged out!");
 	logoutSucceededBlock_();
 }
 
 - (void)fbDidNotLogin:(BOOL)cancelled {
-	DLog(@"Not logged in! Was cancelled? %@", cancelled ? @"YES" : @"NO");
 	loginFailedBlock_();
 }
 
