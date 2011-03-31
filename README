@@ -1,0 +1,2 @@
+JSFacebook is a replacement for the official Facebook iOS SDK. It still uses the official SDK for authorization but not for long. It only supports the Graph API.
+It supports block-style callbacks, request queuing and the new Graph API batch calls.
