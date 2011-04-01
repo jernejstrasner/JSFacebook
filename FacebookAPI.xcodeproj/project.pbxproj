@@ -32,6 +32,7 @@
 		1958B9DF133E92F600C90D1A /* JSFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9DE133E92F600C90D1A /* JSFacebook.m */; };
 		195FB8E913413593006137FF /* JSFacebookRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 195FB8E813413593006137FF /* JSFacebookRequest.m */; };
 		19CE79DC1345CCF100C7D60E /* fbicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 19CE79DB1345CCF100C7D60E /* fbicon.png */; };
+		19F4DF4413460627005C67CF /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 19F4DF2B13460627005C67CF /* JSONKit.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,8 @@
 		195FB8E813413593006137FF /* JSFacebookRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSFacebookRequest.m; sourceTree = "<group>"; };
 		197A727C133FF93100590300 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		19CE79DB1345CCF100C7D60E /* fbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fbicon.png; path = images/fbicon.png; sourceTree = SOURCE_ROOT; };
+		19F4DF2A13460627005C67CF /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		19F4DF2B13460627005C67CF /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +169,7 @@
 		1958B97F133E896500C90D1A /* FacebookAPI */ = {
 			isa = PBXGroup;
 			children = (
+				19F4DF0413460627005C67CF /* JSONKit */,
 				195754C91345D20A0083BEEC /* facebook-ios-sdk */,
 				1958B9DC133E92CB00C90D1A /* FBAPI */,
 				1958B988133E896500C90D1A /* FacebookAPIAppDelegate.h */,
@@ -213,6 +217,15 @@
 			);
 			name = images;
 			sourceTree = "<group>";
+		};
+		19F4DF0413460627005C67CF /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				19F4DF2A13460627005C67CF /* JSONKit.h */,
+				19F4DF2B13460627005C67CF /* JSONKit.m */,
+			);
+			path = JSONKit;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -297,6 +310,7 @@
 				195754EA1345D20A0083BEEC /* SBJsonBase.m in Sources */,
 				195754EB1345D20A0083BEEC /* SBJsonParser.m in Sources */,
 				195754EC1345D20A0083BEEC /* SBJsonWriter.m in Sources */,
+				19F4DF4413460627005C67CF /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

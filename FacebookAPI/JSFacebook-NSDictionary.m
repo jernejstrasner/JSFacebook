@@ -18,7 +18,7 @@
 		id obj = [self valueForKey:key];
 		// Encode arrays and dictionaries in JSON
 		if ([obj isKindOfClass:[NSArray class]] || [obj isKindOfClass:[NSDictionary class]]) {
-			obj = [obj JSONRepresentation];
+			obj = [obj JSONString];
 		}
 		// Escaping
 		NSString *escaped_value = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, /* allocator */
@@ -56,7 +56,7 @@
 		} else if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray class]]) {
 			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];        
 			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[[value JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+			[body appendData:[value JSONData]];
 		} else {
 			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];        
 			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];

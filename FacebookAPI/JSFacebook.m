@@ -9,7 +9,7 @@
 #import "JSFacebook.h"
 
 #import <libkern/OSAtomic.h>
-#import "JSON.h"
+#import "JSONKit.h"
 
 // Constants
 NSString * const kJSFacebookAppID = @"150562561623295"; // Change to your facebook app ID
@@ -149,7 +149,7 @@ static void * volatile sharedInstance = nil;
 		if (error == nil && httpData != nil) {
 			NSString *responseString = [[[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding] autorelease];
 			// It's JSON so parse it
-			id jsonObject = [responseString JSONValue];
+			id jsonObject = [responseString objectFromJSONString];
 			// Check for errors
 			if ([jsonObject isKindOfClass:[NSDictionary class]] &&
 				[jsonObject valueForKey:@"error"] != nil)
@@ -272,7 +272,7 @@ static void * volatile sharedInstance = nil;
 		if (error == nil && httpData != nil) {
 			NSString *responseString = [[[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding] autorelease];
 			// It's JSON so parse it
-			NSArray *jsonObject = [responseString JSONValue];
+			NSArray *jsonObject = [responseString objectFromJSONString];
 			// Parse the different batch requests
 			NSMutableArray *batchResponses = [NSMutableArray array];
 			for (id responseObject in jsonObject) {
@@ -282,7 +282,7 @@ static void * volatile sharedInstance = nil;
 				}
 				// Check for errors
 				int response_code = [[responseObject valueForKey:@"code"] intValue];
-				NSDictionary *data = [[responseObject valueForKey:@"body"] JSONValue];
+				NSDictionary *data = [[responseObject valueForKey:@"body"] objectFromJSONString];
 				if (response_code != 200) {
 					// We have an error
 					error = [NSError errorWithDomain:[data valueForKeyPath:@"error.type"] code:response_code userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[data valueForKeyPath:@"error.message"], NSLocalizedDescriptionKey, nil]];
