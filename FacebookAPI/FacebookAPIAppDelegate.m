@@ -10,10 +10,9 @@
 
 @implementation FacebookAPIAppDelegate
 
-
 @synthesize window=_window;
-
 @synthesize navigationController=_navigationController;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -23,6 +22,8 @@
 	[self.window makeKeyAndVisible];
 	
 	// Permissions
+	// Reference: http://developers.facebook.com/docs/authentication/permissions/
+	// Enter the permissions you want in this array
 	NSArray *permissions = [NSArray arrayWithObjects:
 							@"read_stream",
 							@"read_mailbox",
@@ -81,8 +82,10 @@
 	// Login to Facebook
 	JSFacebook *facebook = [JSFacebook sharedInstance];
 	[facebook loginWithPermissions:permissions onSuccess:^{
+		// Successfully logged in
 		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidLoginNotification object:facebook];
 	} onError:^{
+		// There was an error
 		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidNotLoginNotification object:facebook];
 	}];
 	

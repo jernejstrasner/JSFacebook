@@ -28,7 +28,6 @@
 		1958B98A133E896500C90D1A /* FacebookAPIAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B989133E896500C90D1A /* FacebookAPIAppDelegate.m */; };
 		1958B98D133E896500C90D1A /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1958B98B133E896500C90D1A /* MainWindow.xib */; };
 		1958B990133E896500C90D1A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B98F133E896500C90D1A /* RootViewController.m */; };
-		1958B993133E896500C90D1A /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1958B991133E896500C90D1A /* RootViewController.xib */; };
 		1958B9DF133E92F600C90D1A /* JSFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9DE133E92F600C90D1A /* JSFacebook.m */; };
 		195FB8E913413593006137FF /* JSFacebookRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 195FB8E813413593006137FF /* JSFacebookRequest.m */; };
 		19CE79DC1345CCF100C7D60E /* fbicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 19CE79DB1345CCF100C7D60E /* fbicon.png */; };
@@ -75,7 +74,6 @@
 		1958B98C133E896500C90D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		1958B98E133E896500C90D1A /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		1958B98F133E896500C90D1A /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		1958B992133E896500C90D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
 		1958B9DD133E92F600C90D1A /* JSFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSFacebook.h; sourceTree = "<group>"; };
 		1958B9DE133E92F600C90D1A /* JSFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSFacebook.m; sourceTree = "<group>"; };
 		195FB8E713413593006137FF /* JSFacebookRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSFacebookRequest.h; sourceTree = "<group>"; };
@@ -177,7 +175,6 @@
 				1958B98B133E896500C90D1A /* MainWindow.xib */,
 				1958B98E133E896500C90D1A /* RootViewController.h */,
 				1958B98F133E896500C90D1A /* RootViewController.m */,
-				1958B991133E896500C90D1A /* RootViewController.xib */,
 				1958B980133E896500C90D1A /* Supporting Files */,
 			);
 			path = FacebookAPI;
@@ -280,7 +277,6 @@
 			files = (
 				1958B984133E896500C90D1A /* InfoPlist.strings in Resources */,
 				1958B98D133E896500C90D1A /* MainWindow.xib in Resources */,
-				1958B993133E896500C90D1A /* RootViewController.xib in Resources */,
 				1910371D1345326300922D54 /* Readme.markdown in Resources */,
 				19CE79DC1345CCF100C7D60E /* fbicon.png in Resources */,
 				195754E31345D20A0083BEEC /* FBDialog.bundle in Resources */,
@@ -331,14 +327,6 @@
 				1958B98C133E896500C90D1A /* en */,
 			);
 			name = MainWindow.xib;
-			sourceTree = "<group>";
-		};
-		1958B991133E896500C90D1A /* RootViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1958B992133E896500C90D1A /* en */,
-			);
-			name = RootViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
