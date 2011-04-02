@@ -12,11 +12,13 @@
 #import "JSONKit.h"
 
 // Constants
-NSString * const kJSFacebookAppID = @"150562561623295"; // Change to your facebook app ID
-float const kJSFacebookImageQuality = 0.8; // JPEG compression ration when uploading images
+NSString * const kJSFacebookAppID	= @"150562561623295"; // Change to your facebook app ID
+float const kJSFacebookImageQuality	= 0.8; // JPEG compression ration when uploading images
 
-NSString * const kJSFacebookStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
-NSString * const kJSFacebookGraphAPIEndpoint = @"https://graph.facebook.com/";
+NSString * const kJSFacebookStringBoundary				= @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
+NSString * const kJSFacebookGraphAPIEndpoint			= @"https://graph.facebook.com/";
+NSString * const kJSFacebookAccessTokenKey				= @"JSFacebookAccessToken";
+NSString * const kJSFacebookAccessTokenExpiryDateKey	= @"JSFacebookAccessTokenExpiryDate";
 
 @implementation JSFacebook
 
@@ -41,32 +43,50 @@ static void * volatile sharedInstance = nil;
 
 #pragma mark - Properties
 
-@synthesize facebook=facebook_;
 @synthesize accessToken=_accessToken;
+@synthesize accessTokenExpiryDate=_accessTokenExpiryDate;
+
+- (void)setAccessToken:(NSString *)accessToken {
+	[_accessToken release];
+	_accessToken = [accessToken retain];
+	
+	[[NSUserDefaults standardUserDefaults] setValue:accessToken forKey:kJSFacebookAccessTokenKey];
+}
+
+- (void)setAccessTokenExpiryDate:(NSDate *)accessTokenExpiryDate {
+	[_accessTokenExpiryDate release];
+	_accessTokenExpiryDate = [accessTokenExpiryDate retain];
+	
+	[[NSUserDefaults standardUserDefaults] setValue:accessTokenExpiryDate forKey:kJSFacebookAccessTokenExpiryDateKey];
+}
 
 #pragma mark - Lifecycle
 
 - (id)init {
 	self = [super init];
 	if (self) {
-		// Init Facebook
-		facebook_ = [[Facebook alloc] initWithAppId:kJSFacebookAppID];
 		// Init the network queue
 		network_queue = dispatch_queue_create("com.jsfacebook.network", NULL);
+		// Check if we have an access token saved and it is stil valid
+		NSString *accessToken = [[NSUserDefaults standardUserDefaults] valueForKey:kJSFacebookAccessTokenKey];
+		if ([accessToken length] > 0) {
+			NSDate *accessTokenExpiryDate = [[NSUserDefaults standardUserDefaults] valueForKey:kJSFacebookAccessTokenExpiryDateKey];
+			if ([accessTokenExpiryDate timeIntervalSinceNow] > 0) {
+				// Save to properties
+				self.accessToken = accessToken;
+				self.accessTokenExpiryDate = accessTokenExpiryDate;
+			}
+		}
 	}
 	return self;
 }
 
 - (void)dealloc {
 	// Properties
-	[facebook_ release];
 	[_accessToken release];
+	[_accessTokenExpiryDate release];
 	// Dispatch stuff
 	dispatch_release(network_queue);
-	// Blocks
-	[loginSucceededBlock_ release];
-	[loginFailedBlock_ release];
-	[logoutSucceededBlock_ release];
 	// Super
 	[super dealloc];
 }
@@ -75,37 +95,54 @@ static void * volatile sharedInstance = nil;
 #pragma mark - Authentication
 
 - (void)loginWithPermissions:(NSArray *)permissions
-				   onSuccess:(voidBlock)succBlock
-					 onError:(voidBlock)errBlock
+				   onSuccess:(JSFBLoginSuccessBlock)succBlock
+					 onError:(JSFBLoginErrorBlock)errBlock
 {
-	[loginSucceededBlock_ release];
-	loginSucceededBlock_ = [succBlock copy];
-	[loginFailedBlock_ release];
-	loginFailedBlock_ = [errBlock copy];
-	// Authenticate
-	[self.facebook authorize:permissions delegate:self];
+	if (![self isSessionValid]) {
+		// Open a modal window on the main app view controller
+		UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+		JSFacebookLoginController *loginController = [JSFacebookLoginController loginControllerWithPermissions:permissions onSuccess:succBlock onError:errBlock];
+		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			navController.modalPresentationStyle = UIModalPresentationFormSheet;
+		}
+		[rootViewController presentModalViewController:navController animated:YES];
+		[navController release];
+	} else {
+		succBlock();
+	}
 }
 
-- (void)logoutAndOnSuccess:(voidBlock)succBlock {
-	[logoutSucceededBlock_ release];
-	logoutSucceededBlock_ = [succBlock copy];
-	// Log out from Facebook
-	[self.facebook logout:self];
+- (void)logout {
+	// Nil out the properties
+	self.accessToken = nil;
+	self.accessTokenExpiryDate = nil;
+	// Remove any saved login data
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:kJSFacebookAccessTokenKey];
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:kJSFacebookAccessTokenExpiryDateKey];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)isSessionValid {
+	if ([self.accessToken length] > 0 && [self.accessTokenExpiryDate timeIntervalSinceNow] > 0) {
+		return YES;
+	}
+	return NO;
 }
 
 #pragma mark - Graph API requests
 
 - (void)fetchRequest:(JSFacebookRequest *)graphRequest
-		   onSuccess:(successBlock)succBlock
-			 onError:(errorBlock)errBlock
+		   onSuccess:(JSFBSuccessBlock)succBlock
+			 onError:(JSFBErrorBlock)errBlock
 {
 	// Additional parameters
 	NSMutableDictionary *params_ = [NSMutableDictionary dictionaryWithDictionary:graphRequest.parameters];
 	[params_ setValue:@"json" forKey:@"format"];
 
 	// Add the access token
-	if ([self.facebook isSessionValid]) {
-		[params_ setValue:self.facebook.accessToken forKey:@"access_token"];
+	if ([self isSessionValid]) {
+		[params_ setValue:self.accessToken forKey:@"access_token"];
 	}
 	
 	// Request
@@ -178,8 +215,8 @@ static void * volatile sharedInstance = nil;
 }
 
 - (void)requestWithGraphPath:(NSString *)graphPath
-				   onSuccess:(successBlock)succBlock
-					 onError:(errorBlock)errBlock
+				   onSuccess:(JSFBSuccessBlock)succBlock
+					 onError:(JSFBErrorBlock)errBlock
 {
 	JSFacebookRequest *graphRequest = [[[JSFacebookRequest alloc] initWithGraphPath:graphPath] autorelease];
 	[self fetchRequest:graphRequest onSuccess:succBlock onError:errBlock];
@@ -188,16 +225,16 @@ static void * volatile sharedInstance = nil;
 #pragma mark - Graph API batch requests
 
 - (void)fetchRequests:(NSArray *)graphRequests
-			onSuccess:(successBlockBatch)succBlock
-			  onError:(errorBlock)errBlock
+			onSuccess:(JSFBBatchSuccessBlock)succBlock
+			  onError:(JSFBErrorBlock)errBlock
 {
 	// Additional parameters
 	NSMutableDictionary *params_ = [NSMutableDictionary dictionary];
 	[params_ setValue:@"json" forKey:@"format"];
 	
 	// Add the access token
-	if ([self.facebook isSessionValid]) {
-		[params_ setValue:self.facebook.accessToken forKey:@"access_token"];
+	if ([self isSessionValid]) {
+		[params_ setValue:self.accessToken forKey:@"access_token"];
 	}
 	
 	// Request
@@ -308,20 +345,6 @@ static void * volatile sharedInstance = nil;
 	});
 	
 	[request release];
-}
-
-#pragma mark - FBSessionDelegate
-
-- (void)fbDidLogin {
-	loginSucceededBlock_();
-}
-
-- (void)fbDidLogout {
-	logoutSucceededBlock_();
-}
-
-- (void)fbDidNotLogin:(BOOL)cancelled {
-	loginFailedBlock_();
 }
 
 @end

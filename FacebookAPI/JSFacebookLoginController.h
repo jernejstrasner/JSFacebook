@@ -22,6 +22,8 @@ typedef void(^JSFBLoginErrorBlock)(NSError *error);
 
 @property (nonatomic, readonly) UIWebView *webView;
 
+// Returns an autoreleased login controller
+// It will automatically load the login page and perform the passed blocks
 + (JSFacebookLoginController *)loginControllerWithPermissions:(NSArray *)permissions
 													onSuccess:(JSFBLoginSuccessBlock)successBlock
 													  onError:(JSFBLoginErrorBlock)errorBlock;

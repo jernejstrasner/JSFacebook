@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "FBConnect.h"
-
 @interface FacebookAPIAppDelegate : NSObject <UIApplicationDelegate> {
 
 }

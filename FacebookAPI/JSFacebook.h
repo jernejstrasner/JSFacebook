@@ -12,7 +12,6 @@
 #import "JSFacebook-NSDictionary.h"
 #import "JSFacebook-NSString.h"
 
-#import "FBConnect.h"
 #import "JSFacebookRequest.h"
 #import "JSFacebookLoginController.h"
 
@@ -21,51 +20,65 @@ extern NSString * const kJSFacebookStringBoundary;
 extern float const kJSFacebookImageQuality;
 extern NSString * const kJSFacebookGraphAPIEndpoint;
 extern NSString * const kJSFacebookAppID;
+extern NSString * const kJSFacebookAccessTokenKey;
+extern NSString * const kJSFacebookAccessTokenExpiryDateKey;
 
 // Typedefs
-typedef void (^voidBlock)(void);
-typedef void (^successBlock)(id responseObject);
-typedef void (^errorBlock)(NSError *error);
-typedef void (^successBlockBatch)(NSArray *responseObjects);
+typedef void (^JSFBVoidBlock)(void);
+typedef void (^JSFBSuccessBlock)(id responseObject);
+typedef void (^JSFBErrorBlock)(NSError *error);
+typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 
-@interface JSFacebook : NSObject <FBSessionDelegate> {
-	Facebook *facebook_;
+@interface JSFacebook : NSObject {
+	// Access token
+	NSString *_accessToken;
+	NSDate *_accessTokenExpiryDate;
 
 	@private
 	// Grand Central Dispatch
 	dispatch_queue_t network_queue;	
-	// Login blocks
-	voidBlock loginSucceededBlock_;
-	voidBlock loginFailedBlock_;
-	voidBlock logoutSucceededBlock_;
-	// Access token
-	NSString *_accessToken;
 }
 
-@property (nonatomic, readonly) Facebook *facebook;
-
 @property (nonatomic, retain) NSString *accessToken;
+@property (nonatomic, retain) NSDate *accessTokenExpiryDate;
 
 + (JSFacebook *)sharedInstance;
 
-// Authorization
+#pragma mark Authorization
+
+// This is only a convinience method that opens a modal window
+// in the root view controller of the key winodow in your app.
+// If you want more control over the login window presentation
+// check out JSFacebookLoginController.
 - (void)loginWithPermissions:(NSArray *)permissions
-				   onSuccess:(voidBlock)succBlock
-					 onError:(voidBlock)errBlock;
-- (void)logoutAndOnSuccess:(voidBlock)succBlock;
+				   onSuccess:(JSFBLoginSuccessBlock)succBlock
+					 onError:(JSFBLoginErrorBlock)errBlock;
 
-// Graph API requests
+// Destroys the current access token and expiry date.
+// This method doesn not invalidate the access token on Facebook servers!
+- (void)logout;
+
+// Checks if the current login session is stil valid
+- (BOOL)isSessionValid;
+
+#pragma mark Graph API requests
+
+// Fetches a single Graph API request
 - (void)fetchRequest:(JSFacebookRequest *)graphRequest
-		   onSuccess:(successBlock)succBlock
-			 onError:(errorBlock)errBlock;
+		   onSuccess:(JSFBSuccessBlock)succBlock
+			 onError:(JSFBErrorBlock)errBlock;
 
+// Fetches the provieded Graph API path
 - (void)requestWithGraphPath:(NSString *)graphPath
-				   onSuccess:(successBlock)succBlock
-					 onError:(errorBlock)errBlock;
+				   onSuccess:(JSFBSuccessBlock)succBlock
+					 onError:(JSFBErrorBlock)errBlock;
 
-// Graph API batch requests
+#pragma mark Graph API batch requests
+
+// Fetch multiple Graph API requests in one network request
+// https://developers.facebook.com/docs/api/batch/
 - (void)fetchRequests:(NSArray *)graphRequests
-			onSuccess:(successBlockBatch)succBlock
-			  onError:(errorBlock)errBlock;
+			onSuccess:(JSFBBatchSuccessBlock)succBlock
+			  onError:(JSFBErrorBlock)errBlock;
 
 @end

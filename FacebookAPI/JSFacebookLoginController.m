@@ -34,8 +34,8 @@
 	self = [super init];
 	if (self) {
 		_permissions = [permissions retain];
-		_successBlock = [successBlock retain];
-		_errorBlock = [errorBlock retain];
+		_successBlock = [successBlock copy];
+		_errorBlock = [errorBlock copy];
 	}
 	return self;
 }
@@ -131,6 +131,8 @@
 			if ([token length] > 0) {
 				// We're done. We have the token.
 				[[JSFacebook sharedInstance] setAccessToken:token];
+				[[JSFacebook sharedInstance] setAccessTokenExpiryDate:expirationDate];
+				// Call the success block
 				_successBlock();
 			} else {
 				// Oops. We have an error. No valid token found.
@@ -149,7 +151,7 @@
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-	// TODO: report the error
+	_errorBlock(error);
 }
 
 @end
