@@ -12,7 +12,7 @@
 #import "JSONKit.h"
 
 // Constants
-NSString * const kJSFacebookAppID = @"150562561623295"; // Change to your facebook app ID
+NSString * const kJSFacebookAppID = @"your_facebook_app_id"; // Change to your facebook app ID
 float const kJSFacebookImageQuality = 0.8; // JPEG compression ration when uploading images
 
 NSString * const kJSFacebookStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
