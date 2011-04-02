@@ -10,9 +10,11 @@
 #import <dispatch/dispatch.h>
 
 #import "JSFacebook-NSDictionary.h"
+#import "JSFacebook-NSString.h"
 
 #import "FBConnect.h"
 #import "JSFacebookRequest.h"
+#import "JSFacebookLoginController.h"
 
 // Constants
 extern NSString * const kJSFacebookStringBoundary;
@@ -29,17 +31,20 @@ typedef void (^successBlockBatch)(NSArray *responseObjects);
 @interface JSFacebook : NSObject <FBSessionDelegate> {
 	Facebook *facebook_;
 
-	// Grand Central Dispatch
-	dispatch_queue_t network_queue;
-	
 	@private
+	// Grand Central Dispatch
+	dispatch_queue_t network_queue;	
 	// Login blocks
 	voidBlock loginSucceededBlock_;
 	voidBlock loginFailedBlock_;
 	voidBlock logoutSucceededBlock_;
+	// Access token
+	NSString *_accessToken;
 }
 
 @property (nonatomic, readonly) Facebook *facebook;
+
+@property (nonatomic, retain) NSString *accessToken;
 
 + (JSFacebook *)sharedInstance;
 

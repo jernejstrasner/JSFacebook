@@ -22,6 +22,11 @@ NSString * const kJSFacebookGraphAPIEndpoint = @"https://graph.facebook.com/";
 
 #pragma mark - Singleton
 
+/*
+ * Singleton pattern by Louis Gerbarg
+ * http://stackoverflow.com/questions/145154/what-does-your-objective-c-singleton-look-like/2449664#2449664
+ */
+
 static void * volatile sharedInstance = nil;
 
 + (JSFacebook *)sharedInstance {
@@ -37,6 +42,7 @@ static void * volatile sharedInstance = nil;
 #pragma mark - Properties
 
 @synthesize facebook=facebook_;
+@synthesize accessToken=_accessToken;
 
 #pragma mark - Lifecycle
 
@@ -52,8 +58,9 @@ static void * volatile sharedInstance = nil;
 }
 
 - (void)dealloc {
-	// Release facebook
+	// Properties
 	[facebook_ release];
+	[_accessToken release];
 	// Dispatch stuff
 	dispatch_release(network_queue);
 	// Blocks
@@ -122,7 +129,7 @@ static void * volatile sharedInstance = nil;
 	// Different parameters encoding for differet methods
 	if ([graphRequest.httpMethod isEqualToString:@"POST"]) {
 		// Generate a POST body from the parameters (supports images)
-		[request setHTTPBody:[params_ generatePOSTBody]];
+		[request setHTTPBody:[params_ generatePOSTBodyWithBoundary:kJSFacebookStringBoundary]];
 		NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kJSFacebookStringBoundary];
 		[request setValue:contentType forHTTPHeaderField:@"Content-Type"];
 	} else {
@@ -230,7 +237,7 @@ static void * volatile sharedInstance = nil;
 			// Add the url
 			[batchParams setValue:gPath forKey:@"relative_url"];
 			// Generate a POST body from the parameters (supports images)
-			[batchParams setValue:[graphRequest.parameters generatePOSTBody] forKey:@"body"];
+			[batchParams setValue:[graphRequest.parameters generatePOSTBodyWithBoundary:kJSFacebookStringBoundary] forKey:@"body"];
 		} else {
 			// Check how to append, with an ? or &
 			char glue;
@@ -253,7 +260,7 @@ static void * volatile sharedInstance = nil;
 	[batchData release];
 	
 	// Add the POST body
-	[request setHTTPBody:[params_ generatePOSTBody]];
+	[request setHTTPBody:[params_ generatePOSTBodyWithBoundary:kJSFacebookStringBoundary]];
 	
 	// Set the URL
 	[request setURL:[NSURL URLWithString:kJSFacebookGraphAPIEndpoint]];

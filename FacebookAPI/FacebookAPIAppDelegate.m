@@ -8,6 +8,8 @@
 
 #import "FacebookAPIAppDelegate.h"
 
+#import "JSFacebook.h"
+
 @implementation FacebookAPIAppDelegate
 
 @synthesize window=_window;
@@ -79,15 +81,24 @@
 							@"rsvp_event",
 							nil];
 
-	// Login to Facebook
-	JSFacebook *facebook = [JSFacebook sharedInstance];
-	[facebook loginWithPermissions:permissions onSuccess:^{
-		// Successfully logged in
-		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidLoginNotification object:facebook];
-	} onError:^{
-		// There was an error
-		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidNotLoginNotification object:facebook];
+//	// Login to Facebook
+//	JSFacebook *facebook = [JSFacebook sharedInstance];
+//	[facebook loginWithPermissions:permissions onSuccess:^{
+//		// Successfully logged in
+//		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidLoginNotification object:facebook];
+//	} onError:^{
+//		// There was an error
+//		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidNotLoginNotification object:facebook];
+//	}];
+	
+	JSFacebookLoginController *loginController = [JSFacebookLoginController loginControllerWithPermissions:permissions onSuccess:^(void) {
+		DLog(@"Sucessfully logged in!");
+	} onError:^(NSError *error) {
+		DLog(@"Error while logging in: %@", [error localizedDescription]);
 	}];
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
+	[self.window.rootViewController presentModalViewController:navController animated:YES];
+	[navController release];
 	
     return YES;
 }

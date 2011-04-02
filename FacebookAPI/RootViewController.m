@@ -8,6 +8,8 @@
 
 #import "RootViewController.h"
 
+#import "JSFacebook.h"
+
 @implementation RootViewController
 
 #pragma mark - View lifecycle
