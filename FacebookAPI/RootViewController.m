@@ -21,7 +21,7 @@
 	// Listen for the login successful notification
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookDidLogin:) name:kFacebookDidLoginNotification object:nil];
 	
-	self.title = @"Facebook API tests";
+	self.title = @"Facebook API";
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

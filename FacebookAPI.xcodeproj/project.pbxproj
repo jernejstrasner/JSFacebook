@@ -10,6 +10,7 @@
 		1910371D1345326300922D54 /* Readme.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 1910371C1345326300922D54 /* Readme.markdown */; };
 		19518FBE13472FF300ABE293 /* JSFacebookLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19518FBD13472FF300ABE293 /* JSFacebookLoginController.m */; };
 		19518FC21347335400ABE293 /* JSFacebook-NSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 19518FC11347335400ABE293 /* JSFacebook-NSString.m */; };
+		19518FE11347BE9400ABE293 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19518FDF1347BE9400ABE293 /* MainWindow-iPad.xib */; };
 		19521E0B134488210042E084 /* JSFacebook-NSDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 19521E0A134488210042E084 /* JSFacebook-NSDictionary.m */; };
 		1958B97A133E896500C90D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B979133E896500C90D1A /* UIKit.framework */; };
 		1958B97C133E896500C90D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1958B97B133E896500C90D1A /* Foundation.framework */; };
@@ -31,6 +32,7 @@
 		19518FBD13472FF300ABE293 /* JSFacebookLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSFacebookLoginController.m; sourceTree = "<group>"; };
 		19518FC01347335400ABE293 /* JSFacebook-NSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSFacebook-NSString.h"; sourceTree = "<group>"; };
 		19518FC11347335400ABE293 /* JSFacebook-NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSFacebook-NSString.m"; sourceTree = "<group>"; };
+		19518FE01347BE9400ABE293 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "iPad/en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		19521E09134488210042E084 /* JSFacebook-NSDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSFacebook-NSDictionary.h"; sourceTree = "<group>"; };
 		19521E0A134488210042E084 /* JSFacebook-NSDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSFacebook-NSDictionary.m"; sourceTree = "<group>"; };
 		1958B975133E896500C90D1A /* FacebookAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacebookAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		19518FDE1347BE9200ABE293 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				19518FDF1347BE9400ABE293 /* MainWindow-iPad.xib */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 		1958B96A133E896400C90D1A = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +117,7 @@
 				1958B98B133E896500C90D1A /* MainWindow.xib */,
 				1958B98E133E896500C90D1A /* RootViewController.h */,
 				1958B98F133E896500C90D1A /* RootViewController.m */,
+				19518FDE1347BE9200ABE293 /* iPad */,
 				1958B980133E896500C90D1A /* Supporting Files */,
 			);
 			path = FacebookAPI;
@@ -215,6 +226,7 @@
 				1958B98D133E896500C90D1A /* MainWindow.xib in Resources */,
 				1910371D1345326300922D54 /* Readme.markdown in Resources */,
 				19CE79DC1345CCF100C7D60E /* fbicon.png in Resources */,
+				19518FE11347BE9400ABE293 /* MainWindow-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +252,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		19518FDF1347BE9400ABE293 /* MainWindow-iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				19518FE01347BE9400ABE293 /* en */,
+			);
+			name = "MainWindow-iPad.xib";
+			sourceTree = "<group>";
+		};
 		1958B982133E896500C90D1A /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -302,7 +322,9 @@
 				GCC_PREFIX_HEADER = "FacebookAPI/FacebookAPI-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "FacebookAPI/FacebookAPI-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -317,7 +339,9 @@
 				GCC_PREFIX_HEADER = "FacebookAPI/FacebookAPI-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "FacebookAPI/FacebookAPI-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

@@ -102,12 +102,11 @@ static void * volatile sharedInstance = nil;
 		// Open a modal window on the main app view controller
 		UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
 		JSFacebookLoginController *loginController = [JSFacebookLoginController loginControllerWithPermissions:permissions onSuccess:succBlock onError:errBlock];
-		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-			navController.modalPresentationStyle = UIModalPresentationFormSheet;
+			loginController.modalPresentationStyle = UIModalPresentationFormSheet;
+			loginController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 		}
-		[rootViewController presentModalViewController:navController animated:YES];
-		[navController release];
+		[rootViewController presentModalViewController:loginController animated:YES];
 	} else {
 		succBlock();
 	}

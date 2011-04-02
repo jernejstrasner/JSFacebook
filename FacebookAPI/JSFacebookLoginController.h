@@ -13,6 +13,7 @@ typedef void(^JSFBLoginErrorBlock)(NSError *error);
 
 @interface JSFacebookLoginController : UIViewController <UIWebViewDelegate> {
     UIWebView *_webView;
+	UIActivityIndicatorView *_activityIndicator;
 	
 	@private
 	JSFBLoginSuccessBlock _successBlock;
@@ -21,6 +22,7 @@ typedef void(^JSFBLoginErrorBlock)(NSError *error);
 }
 
 @property (nonatomic, readonly) UIWebView *webView;
+@property (nonatomic, readonly) UIActivityIndicatorView *activityIndicator;
 
 // Returns an autoreleased login controller
 // It will automatically load the login page and perform the passed blocks

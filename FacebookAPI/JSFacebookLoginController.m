@@ -24,6 +24,7 @@
 #pragma mark - Properties
 
 @synthesize webView=_webView;
+@synthesize activityIndicator=_activityIndicator;
 
 #pragma mark - Object lifecycle
 
@@ -43,6 +44,7 @@
 - (void)dealloc
 {
 	[_webView release];
+	[_activityIndicator release];
 	[_permissions release];
 	// Blocks
 	[_successBlock release];
@@ -69,7 +71,15 @@
 	// Add the UIWebView
 	_webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
 	_webView.delegate = self;
+	_webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self.view addSubview:_webView];
+	
+	// Add the activity indicator
+	_activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+	_activityIndicator.center = _webView.center;
+	_activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
+	_activityIndicator.hidesWhenStopped = YES;
+	[self.view addSubview:_activityIndicator];
 	
 	// Load the login page
 	NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -82,6 +92,7 @@
 	}
 	NSString *urlString = [NSString stringWithFormat:@"https://www.facebook.com/dialog/oauth?%@", [parameters generateGETParameters]];
 	[self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+	[self.activityIndicator startAnimating];
 }
 
 - (void)viewDidUnload
@@ -89,6 +100,8 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	[_webView release], _webView = nil;
+	[_activityIndicator release], _activityIndicator = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -150,7 +163,18 @@
 	}
 }
 
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+	if (self.activityIndicator) {
+		[self.activityIndicator stopAnimating];
+		[self.activityIndicator removeFromSuperview];
+	}
+}
+
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+	if (self.activityIndicator) {
+		[self.activityIndicator stopAnimating];
+		[self.activityIndicator removeFromSuperview];
+	}
 	_errorBlock(error);
 }
 
