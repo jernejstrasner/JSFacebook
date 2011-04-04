@@ -11,10 +11,10 @@
 #import "JSONKit.h"
 
 
-@interface NSDictionary (JSFacebook_NSDictionary)
+@interface NSDictionary (JSFacebook)
 
 // Network data encoding methods
 - (NSString *)generateGETParameters;
-- (NSData *)generatePOSTBody;
+- (NSData *)generatePOSTBodyWithBoundary:(NSString *)boundary;
 
 @end

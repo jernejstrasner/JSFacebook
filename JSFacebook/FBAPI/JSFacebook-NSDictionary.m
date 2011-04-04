@@ -8,8 +8,7 @@
 
 #import "JSFacebook-NSDictionary.h"
 
-
-@implementation NSDictionary (JSFacebook_NSDictionary)
+@implementation NSDictionary (JSFacebook)
 
 - (NSString *)generateGETParameters {
 	NSMutableArray *pairs = [NSMutableArray new];
@@ -37,17 +36,17 @@
 	return parameters;
 }
 
-- (NSData *)generatePOSTBody {
+- (NSData *)generatePOSTBodyWithBoundary:(NSString *)boundary {
 	NSMutableData *body = [NSMutableData data];
-	NSString *beginLine = [NSString stringWithFormat:@"\r\n--%@\r\n", kJSFacebookStringBoundary];
+	NSString *beginLine = [NSString stringWithFormat:@"\r\n--%@\r\n", boundary];
 	
-	[body appendData:[[NSString stringWithFormat:@"--%@\r\n", kJSFacebookStringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	for (id key in self) {
 		id value = [self valueForKey:key];
 		if ([value isKindOfClass:[UIImage class]]) {
 			UIImage *image = [self objectForKey:key];
-			NSData *data = UIImageJPEGRepresentation(image, kJSFacebookImageQuality);
+			NSData *data = UIImageJPEGRepresentation(image, 0.8);
 			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];
 			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
 			[body appendData:[[NSString stringWithFormat:@"Content-Length: %d\r\n", [data length]] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -64,7 +63,7 @@
 		}
 	}
 
-	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", kJSFacebookStringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	return body;
 }

@@ -8,6 +8,8 @@
 
 #import "FacebookAPIAppDelegate.h"
 
+#import "JSFacebook.h"
+
 @implementation FacebookAPIAppDelegate
 
 @synthesize window=_window;
@@ -21,8 +23,7 @@
 	self.window.rootViewController = self.navigationController;
 	[self.window makeKeyAndVisible];
 	
-	// Permissions
-	// Reference: http://developers.facebook.com/docs/authentication/permissions/
+	// Permissions reference: http://developers.facebook.com/docs/authentication/permissions/
 	// Enter the permissions you want in this array
 	NSArray *permissions = [NSArray arrayWithObjects:
 							@"read_stream",
@@ -79,21 +80,21 @@
 							@"rsvp_event",
 							nil];
 
-	// Login to Facebook
-	JSFacebook *facebook = [JSFacebook sharedInstance];
-	[facebook loginWithPermissions:permissions onSuccess:^{
+	[[JSFacebook sharedInstance] loginWithPermissions:permissions onSuccess:^(void) {
+		DLog(@"Sucessfully logged in!");
 		// Successfully logged in
-		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidLoginNotification object:facebook];
-	} onError:^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidLoginNotification object:nil];
+		// Hide the window
+		[self.window.rootViewController dismissModalViewControllerAnimated:YES];
+	} onError:^(NSError *error) {
+		DLog(@"Error while logging in: %@", [error localizedDescription]);
 		// There was an error
-		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidNotLoginNotification object:facebook];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidNotLoginNotification object:nil];
+		// Hide the window
+		[self.window.rootViewController dismissModalViewControllerAnimated:YES];
 	}];
 	
     return YES;
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-	return [[[JSFacebook sharedInstance] facebook] handleOpenURL:url];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
