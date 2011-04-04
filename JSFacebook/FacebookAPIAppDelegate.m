@@ -23,9 +23,7 @@
 	self.window.rootViewController = self.navigationController;
 	[self.window makeKeyAndVisible];
 	
-	// Permissions
-	// Reference: http://developers.facebook.com/docs/authentication/permissions/
-	
+	// Permissions reference: http://developers.facebook.com/docs/authentication/permissions/
 	// Enter the permissions you want in this array
 	NSArray *permissions = [NSArray arrayWithObjects:
 							@"read_stream",
@@ -98,10 +96,6 @@
 	
     return YES;
 }
-
-//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-////	return [[[JSFacebook sharedInstance] facebook] handleOpenURL:url];
-//}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

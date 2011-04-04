@@ -22,7 +22,6 @@
 		1958B990133E896500C90D1A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B98F133E896500C90D1A /* RootViewController.m */; };
 		1958B9DF133E92F600C90D1A /* JSFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9DE133E92F600C90D1A /* JSFacebook.m */; };
 		195FB8E913413593006137FF /* JSFacebookRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 195FB8E813413593006137FF /* JSFacebookRequest.m */; };
-		19CE79DC1345CCF100C7D60E /* fbicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 19CE79DB1345CCF100C7D60E /* fbicon.png */; };
 		19F4DF4413460627005C67CF /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 19F4DF2B13460627005C67CF /* JSONKit.m */; };
 /* End PBXBuildFile section */
 
@@ -35,13 +34,13 @@
 		19518FE01347BE9400ABE293 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "iPad/en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		19521E09134488210042E084 /* JSFacebook-NSDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSFacebook-NSDictionary.h"; sourceTree = "<group>"; };
 		19521E0A134488210042E084 /* JSFacebook-NSDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSFacebook-NSDictionary.m"; sourceTree = "<group>"; };
-		1958B975133E896500C90D1A /* FacebookAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacebookAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1958B975133E896500C90D1A /* JSFacebook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSFacebook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1958B979133E896500C90D1A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1958B97B133E896500C90D1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1958B97D133E896500C90D1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		1958B981133E896500C90D1A /* FacebookAPI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FacebookAPI-Info.plist"; sourceTree = "<group>"; };
+		1958B981133E896500C90D1A /* JSFacebook-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JSFacebook-Info.plist"; sourceTree = "<group>"; };
 		1958B983133E896500C90D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1958B985133E896500C90D1A /* FacebookAPI-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FacebookAPI-Prefix.pch"; sourceTree = "<group>"; };
+		1958B985133E896500C90D1A /* JSFacebook-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSFacebook-Prefix.pch"; sourceTree = "<group>"; };
 		1958B986133E896500C90D1A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1958B988133E896500C90D1A /* FacebookAPIAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FacebookAPIAppDelegate.h; sourceTree = "<group>"; };
 		1958B989133E896500C90D1A /* FacebookAPIAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FacebookAPIAppDelegate.m; sourceTree = "<group>"; };
@@ -53,7 +52,6 @@
 		195FB8E713413593006137FF /* JSFacebookRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSFacebookRequest.h; sourceTree = "<group>"; };
 		195FB8E813413593006137FF /* JSFacebookRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSFacebookRequest.m; sourceTree = "<group>"; };
 		197A727C133FF93100590300 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		19CE79DB1345CCF100C7D60E /* fbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fbicon.png; path = images/fbicon.png; sourceTree = SOURCE_ROOT; };
 		19F4DF2A13460627005C67CF /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		19F4DF2B13460627005C67CF /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,7 +81,7 @@
 		1958B96A133E896400C90D1A = {
 			isa = PBXGroup;
 			children = (
-				1958B97F133E896500C90D1A /* FacebookAPI */,
+				1958B97F133E896500C90D1A /* JSFacebook */,
 				1958B978133E896500C90D1A /* Frameworks */,
 				1958B976133E896500C90D1A /* Products */,
 			);
@@ -92,7 +90,7 @@
 		1958B976133E896500C90D1A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1958B975133E896500C90D1A /* FacebookAPI.app */,
+				1958B975133E896500C90D1A /* JSFacebook.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,7 +105,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		1958B97F133E896500C90D1A /* FacebookAPI */ = {
+		1958B97F133E896500C90D1A /* JSFacebook */ = {
 			isa = PBXGroup;
 			children = (
 				19F4DF0413460627005C67CF /* JSONKit */,
@@ -120,17 +118,16 @@
 				19518FDE1347BE9200ABE293 /* iPad */,
 				1958B980133E896500C90D1A /* Supporting Files */,
 			);
-			path = FacebookAPI;
+			path = JSFacebook;
 			sourceTree = "<group>";
 		};
 		1958B980133E896500C90D1A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				19CE79DA1345CCC800C7D60E /* images */,
 				1910371C1345326300922D54 /* Readme.markdown */,
-				1958B981133E896500C90D1A /* FacebookAPI-Info.plist */,
+				1958B981133E896500C90D1A /* JSFacebook-Info.plist */,
 				1958B982133E896500C90D1A /* InfoPlist.strings */,
-				1958B985133E896500C90D1A /* FacebookAPI-Prefix.pch */,
+				1958B985133E896500C90D1A /* JSFacebook-Prefix.pch */,
 				197A727C133FF93100590300 /* Constants.h */,
 				1958B986133E896500C90D1A /* main.m */,
 			);
@@ -151,15 +148,7 @@
 				19518FC01347335400ABE293 /* JSFacebook-NSString.h */,
 				19518FC11347335400ABE293 /* JSFacebook-NSString.m */,
 			);
-			name = FBAPI;
-			sourceTree = "<group>";
-		};
-		19CE79DA1345CCC800C7D60E /* images */ = {
-			isa = PBXGroup;
-			children = (
-				19CE79DB1345CCF100C7D60E /* fbicon.png */,
-			);
-			name = images;
+			path = FBAPI;
 			sourceTree = "<group>";
 		};
 		19F4DF0413460627005C67CF /* JSONKit */ = {
@@ -174,9 +163,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1958B974133E896500C90D1A /* FacebookAPI */ = {
+		1958B974133E896500C90D1A /* JSFacebook */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1958B9AC133E896500C90D1A /* Build configuration list for PBXNativeTarget "FacebookAPI" */;
+			buildConfigurationList = 1958B9AC133E896500C90D1A /* Build configuration list for PBXNativeTarget "JSFacebook" */;
 			buildPhases = (
 				1958B971133E896500C90D1A /* Sources */,
 				1958B972133E896500C90D1A /* Frameworks */,
@@ -186,9 +175,9 @@
 			);
 			dependencies = (
 			);
-			name = FacebookAPI;
+			name = JSFacebook;
 			productName = FacebookAPI;
-			productReference = 1958B975133E896500C90D1A /* FacebookAPI.app */;
+			productReference = 1958B975133E896500C90D1A /* JSFacebook.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -199,7 +188,7 @@
 			attributes = {
 				ORGANIZATIONNAME = JernejStrasner.com;
 			};
-			buildConfigurationList = 1958B96F133E896400C90D1A /* Build configuration list for PBXProject "FacebookAPI" */;
+			buildConfigurationList = 1958B96F133E896400C90D1A /* Build configuration list for PBXProject "JSFacebook" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -212,7 +201,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1958B974133E896500C90D1A /* FacebookAPI */,
+				1958B974133E896500C90D1A /* JSFacebook */,
 			);
 		};
 /* End PBXProject section */
@@ -225,7 +214,6 @@
 				1958B984133E896500C90D1A /* InfoPlist.strings in Resources */,
 				1958B98D133E896500C90D1A /* MainWindow.xib in Resources */,
 				1910371D1345326300922D54 /* Readme.markdown in Resources */,
-				19CE79DC1345CCF100C7D60E /* fbicon.png in Resources */,
 				19518FE11347BE9400ABE293 /* MainWindow-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,7 +276,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -302,7 +290,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -319,11 +307,11 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FacebookAPI/FacebookAPI-Prefix.pch";
+				GCC_PREFIX_HEADER = "JSFacebook/JSFacebook-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "FacebookAPI/FacebookAPI-Info.plist";
+				INFOPLIST_FILE = "JSFacebook/JSFacebook-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = JSFacebook;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -336,11 +324,11 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FacebookAPI/FacebookAPI-Prefix.pch";
+				GCC_PREFIX_HEADER = "JSFacebook/JSFacebook-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "FacebookAPI/FacebookAPI-Info.plist";
+				INFOPLIST_FILE = "JSFacebook/JSFacebook-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = JSFacebook;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -350,7 +338,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1958B96F133E896400C90D1A /* Build configuration list for PBXProject "FacebookAPI" */ = {
+		1958B96F133E896400C90D1A /* Build configuration list for PBXProject "JSFacebook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1958B9AA133E896500C90D1A /* Debug */,
@@ -359,7 +347,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1958B9AC133E896500C90D1A /* Build configuration list for PBXNativeTarget "FacebookAPI" */ = {
+		1958B9AC133E896500C90D1A /* Build configuration list for PBXNativeTarget "JSFacebook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1958B9AD133E896500C90D1A /* Debug */,
