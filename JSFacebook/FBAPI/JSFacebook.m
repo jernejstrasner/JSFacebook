@@ -199,14 +199,20 @@ static void * volatile sharedInstance = nil;
 				[jsonObject valueForKey:@"error"] != nil)
 			{
 				error = [NSError errorWithDomain:[jsonObject valueForKeyPath:@"error.type"] code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[jsonObject valueForKeyPath:@"error.message"], NSLocalizedDescriptionKey, nil]];
-				errBlock(error);
+				dispatch_async(dispatch_get_main_queue(), ^(void) {
+					errBlock(error);
+				});
 			} else {
 				// Execute the block
-				succBlock(jsonObject);
+				dispatch_async(dispatch_get_main_queue(), ^(void) {
+					succBlock(jsonObject);
+				});
 			}
 		} else {
 			// We have an error to handle
-			errBlock(error);
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
+				errBlock(error);
+			});
 		}
 		[pool drain];
 	});
@@ -336,10 +342,14 @@ static void * volatile sharedInstance = nil;
 				}
 			}
 			// Execute the block
-			succBlock(batchResponses);
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
+				succBlock(batchResponses);
+			});
 		} else {
 			// We have an error to handle
-			errBlock(error);
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
+				errBlock(error);
+			});
 		}
 		[pool drain];
 	});
