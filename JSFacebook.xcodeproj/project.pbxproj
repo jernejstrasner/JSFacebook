@@ -186,6 +186,7 @@
 		1958B96C133E896400C90D1A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = JernejStrasner.com;
 			};
 			buildConfigurationList = 1958B96F133E896400C90D1A /* Build configuration list for PBXProject "JSFacebook" */;
