@@ -1,7 +1,7 @@
 # JSFacebook
 JSFacebook is a replacement for the official Facebook iOS SDK.
 It supports the Graph API and the new Graph API batch calls.
-More information and usage instructions can be found at [http://jernejstrasner.com/2011/04/jsfacebook/](http://jernejstrasner.com/2011/04/jsfacebook/)
+For usage information check out the sample app.
 
 ## Features:
 - uses C blocks for callbacks
@@ -9,6 +9,7 @@ More information and usage instructions can be found at [http://jernejstrasner.c
 - Graph API batch calls
 - uses the fast JSONKit library
 - remembers the access token
+- support for SSO authentication
 
 ## The SDK uses the following libraries:
 - [JSONKit](https://github.com/johnezang/JSONKit)
