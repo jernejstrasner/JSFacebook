@@ -11,8 +11,6 @@
 
 
 // Constants
-#error Enter your Facebook app ID below
-NSString * const kJSFacebookAppID   = @""; // Change to your facebook app ID
 float const kJSFacebookImageQuality = 0.8; // JPEG compression ration when uploading images
 BOOL const kJSFacebookUseSSO        = YES; // Set to no if you don't want to use single sign on
 
@@ -47,6 +45,7 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 
 @synthesize accessToken=_accessToken;
 @synthesize accessTokenExpiryDate=_accessTokenExpiryDate;
+@synthesize facebookAppID=_facebookAppID;
 
 - (void)setAccessToken:(NSString *)accessToken {
 	[_accessToken release];
@@ -90,6 +89,7 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 	// Properties
 	[_accessToken release];
 	[_accessTokenExpiryDate release];
+    [_facebookAppID release];
 	// Dispatch stuff
 	dispatch_release(network_queue);
     // Blocks
@@ -106,6 +106,10 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 				   onSuccess:(JSFBLoginSuccessBlock)succBlock
 					 onError:(JSFBLoginErrorBlock)errBlock
 {
+    if (![self isFacebookAppIDValid]) {
+        NSLog(@"ERROR: You have to set a valid Facebook app ID before you try to authenticate!");
+        return;
+    }
 	if (![self isSessionValid]) {
         // Check for SSO support
         if (kJSFacebookUseSSO && [UIDevice instanceMethodForSelector:@selector(isMultitaskingSupported)] && [[UIDevice currentDevice] isMultitaskingSupported]) {
@@ -114,7 +118,7 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
             self.authErrorBlock = errBlock;
             // Build the parameter string
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            [params setValue:kJSFacebookAppID forKey:@"client_id"];
+            [params setValue:self.facebookAppID forKey:@"client_id"];
             [params setValue:@"user_agent" forKey:@"type"];
             [params setValue:@"touch" forKey:@"display"];
             [params setValue:@"ios" forKey:@"sdk"];
@@ -124,7 +128,7 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
             BOOL didOpenApp = [[UIApplication sharedApplication] openURL:url];
             // If it failed open Safari
             if (didOpenApp == NO) {
-                [params setValue:[NSString stringWithFormat:@"fb%@://authorize", kJSFacebookAppID] forKey:@"redirect_uri"];
+                [params setValue:[NSString stringWithFormat:@"fb%@://authorize", self.facebookAppID] forKey:@"redirect_uri"];
                 url = [NSURL URLWithString:[NSString stringWithFormat:@"https://m.facebook.com/dialog/oauth?%@&scope=%@", [params generateGETParameters], [permissions componentsJoinedByString:@","]]];
                 [[UIApplication sharedApplication] openURL:url];
             }
@@ -158,6 +162,12 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 		return YES;
 	}
 	return NO;
+}
+
+- (BOOL)isFacebookAppIDValid
+{
+    // Check if the Facebook app ID is valid
+    return (self.facebookAppID.length == 15);
 }
 
 - (void)handleCallbackURL:(NSURL *)url

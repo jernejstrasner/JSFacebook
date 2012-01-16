@@ -83,7 +83,7 @@
 	
 	// Load the login page
 	NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-	[parameters setValue:kJSFacebookAppID forKey:@"client_id"];
+	[parameters setValue:[[JSFacebook sharedInstance] facebookAppID] forKey:@"client_id"];
 	[parameters setValue:@"fbconnect://success" forKey:@"redirect_uri"];
 	[parameters setValue:@"touch" forKey:@"display"];
 	[parameters setValue:@"token" forKey:@"response_type"];

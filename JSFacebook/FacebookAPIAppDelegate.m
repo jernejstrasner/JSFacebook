@@ -22,6 +22,10 @@
 	// Add the navigation controller's view to the window and display.
 	self.window.rootViewController = self.navigationController;
 	[self.window makeKeyAndVisible];
+    
+    // Before you try to athenticate you must set the Facebook app ID
+    #error Enter your Facebook app ID here
+    [[JSFacebook sharedInstance] setFacebookAppID:@""];
 	
 	// Permissions reference: http://developers.facebook.com/docs/authentication/permissions/
 	// Enter the permissions you want in this array

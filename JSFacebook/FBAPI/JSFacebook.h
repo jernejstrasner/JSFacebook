@@ -19,7 +19,6 @@
 extern NSString * const kJSFacebookStringBoundary;
 extern float const kJSFacebookImageQuality;
 extern NSString * const kJSFacebookGraphAPIEndpoint;
-extern NSString * const kJSFacebookAppID;
 extern NSString * const kJSFacebookAccessTokenKey;
 extern NSString * const kJSFacebookAccessTokenExpiryDateKey;
 
@@ -39,6 +38,7 @@ typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 	dispatch_queue_t network_queue;	
 }
 
+@property (nonatomic, retain) NSString *facebookAppID;
 @property (nonatomic, retain) NSString *accessToken;
 @property (nonatomic, retain) NSDate *accessTokenExpiryDate;
 
@@ -60,6 +60,9 @@ typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 
 // Checks if the current login session is stil valid
 - (BOOL)isSessionValid;
+
+// Checks if the Facebook app ID was set and it's length is 15
+- (BOOL)isFacebookAppIDValid;
 
 #pragma mark Graph API requests
 
