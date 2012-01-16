@@ -64,6 +64,9 @@ typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 // Checks if the Facebook app ID was set and it's length is 15
 - (BOOL)isFacebookAppIDValid;
 
+// Handles the callback URL for SSO auth
+- (void)handleCallbackURL:(NSURL *)url;
+
 #pragma mark Graph API requests
 
 // Fetches a single Graph API request

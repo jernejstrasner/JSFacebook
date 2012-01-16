@@ -101,6 +101,22 @@
     return YES;
 }
 
+// Pre 4.2 support
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    DLog(@"Handle URL: %@", url);
+    [[JSFacebook sharedInstance] handleCallbackURL:url];
+    return YES;
+}
+
+// For 4.2+ support
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    DLog(@"Open URL: %@", url);
+    [[JSFacebook sharedInstance] handleCallbackURL:url];
+    return YES;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
 	/*
