@@ -10,6 +10,12 @@
 
 #import "JSFacebook.h"
 
+#warning If you are using SSO auth, don't forget to register the URL scheme for the app. Details in the comment below.
+/**
+ If you're using SSO authentication, your app has to register a URL scheme for the callback URL.
+ The URL scheme has to be your Facebook app ID prefixed with 'fb'. Eg. fb000000000000000
+ */
+
 @implementation FacebookAPIAppDelegate
 
 @synthesize window=_window;
