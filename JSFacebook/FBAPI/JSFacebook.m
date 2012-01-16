@@ -7,38 +7,39 @@
 //
 
 #import "JSFacebook.h"
-
-#import <libkern/OSAtomic.h>
 #import "JSONKit.h"
 
+
 // Constants
-#warning Enter your Facebook app ID below
-NSString * const kJSFacebookAppID = @"your_facebook_app_id"; // Change to your facebook app ID
+#error Enter your Facebook app ID below
+NSString * const kJSFacebookAppID   = @""; // Change to your facebook app ID
 float const kJSFacebookImageQuality = 0.8; // JPEG compression ration when uploading images
+BOOL const kJSFacebookUseSSO        = YES; // Set to no if you don't want to use single sign on
 
 NSString * const kJSFacebookStringBoundary				= @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
 NSString * const kJSFacebookGraphAPIEndpoint			= @"https://graph.facebook.com/";
 NSString * const kJSFacebookAccessTokenKey				= @"JSFacebookAccessToken";
 NSString * const kJSFacebookAccessTokenExpiryDateKey	= @"JSFacebookAccessTokenExpiryDate";
+NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/";
+
+@interface JSFacebook ()
+
+@property (nonatomic, copy) JSFBLoginSuccessBlock authSuccessBlock;
+@property (nonatomic, copy) JSFBLoginErrorBlock authErrorBlock;
+
+@end
 
 @implementation JSFacebook
 
 #pragma mark - Singleton
 
-/*
- * Singleton pattern by Louis Gerbarg
- * http://stackoverflow.com/questions/145154/what-does-your-objective-c-singleton-look-like/2449664#2449664
- */
-
-static void * volatile sharedInstance = nil;
-
-+ (JSFacebook *)sharedInstance {
-	while (!sharedInstance) {
-		JSFacebook *temp = [[self alloc] init];
-		if(!OSAtomicCompareAndSwapPtrBarrier(0x0, temp, &sharedInstance)) {
-			[temp release];
-		}
-	}
++ (JSFacebook *)sharedInstance
+{
+    static JSFacebook *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[JSFacebook alloc] init];
+    });
 	return sharedInstance;
 }
 
@@ -60,6 +61,9 @@ static void * volatile sharedInstance = nil;
 	
 	[[NSUserDefaults standardUserDefaults] setValue:accessTokenExpiryDate forKey:kJSFacebookAccessTokenExpiryDateKey];
 }
+
+@synthesize authErrorBlock;
+@synthesize authSuccessBlock;
 
 #pragma mark - Lifecycle
 
@@ -88,6 +92,9 @@ static void * volatile sharedInstance = nil;
 	[_accessTokenExpiryDate release];
 	// Dispatch stuff
 	dispatch_release(network_queue);
+    // Blocks
+    [authSuccessBlock release];
+    [authErrorBlock release];
 	// Super
 	[super dealloc];
 }
@@ -100,14 +107,37 @@ static void * volatile sharedInstance = nil;
 					 onError:(JSFBLoginErrorBlock)errBlock
 {
 	if (![self isSessionValid]) {
-		// Open a modal window on the main app view controller
-		UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-		JSFacebookLoginController *loginController = [JSFacebookLoginController loginControllerWithPermissions:permissions onSuccess:succBlock onError:errBlock];
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-			loginController.modalPresentationStyle = UIModalPresentationFormSheet;
-			loginController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-		}
-		[rootViewController presentModalViewController:loginController animated:YES];
+        // Check for SSO support
+        if (kJSFacebookUseSSO && [UIDevice instanceMethodForSelector:@selector(isMultitaskingSupported)] && [[UIDevice currentDevice] isMultitaskingSupported]) {
+            // Save the blocks
+            self.authSuccessBlock = succBlock;
+            self.authErrorBlock = errBlock;
+            // Build the parameter string
+            NSMutableDictionary *params = [NSMutableDictionary dictionary];
+            [params setValue:kJSFacebookAppID forKey:@"client_id"];
+            [params setValue:@"user_agent" forKey:@"type"];
+            [params setValue:@"touch" forKey:@"display"];
+            [params setValue:@"ios" forKey:@"sdk"];
+            [params setValue:@"fbconnect://success" forKey:@"redirect_uri"];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@&scope=%@", kJSFacebookSSOAuthURL, [params generateGETParameters], [permissions componentsJoinedByString:@","]]];
+            // Open the SSO URL
+            BOOL didOpenApp = [[UIApplication sharedApplication] openURL:url];
+            // If it failed open Safari
+            if (didOpenApp == NO) {
+                [params setValue:[NSString stringWithFormat:@"fb%@://authorize", kJSFacebookAppID] forKey:@"redirect_uri"];
+                url = [NSURL URLWithString:[NSString stringWithFormat:@"https://m.facebook.com/dialog/oauth?%@&scope=%@", [params generateGETParameters], [permissions componentsJoinedByString:@","]]];
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        } else {
+            // Open a modal window on the main app view controller
+            UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+            JSFacebookLoginController *loginController = [JSFacebookLoginController loginControllerWithPermissions:permissions onSuccess:succBlock onError:errBlock];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                loginController.modalPresentationStyle = UIModalPresentationFormSheet;
+                loginController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            }
+            [rootViewController presentModalViewController:loginController animated:YES];
+        }
 	} else {
 		succBlock();
 	}
@@ -128,6 +158,55 @@ static void * volatile sharedInstance = nil;
 		return YES;
 	}
 	return NO;
+}
+
+- (void)handleCallbackURL:(NSURL *)url
+{
+    NSString *urlString = [url absoluteString];
+    NSString *queryString = nil;
+    @try {
+        queryString = [urlString substringFromIndex:[urlString rangeOfString:@"#"].location + 1];
+    }
+    @catch (NSException *exception) {
+        ALog(@"Could not parse the query string: %@", [exception reason]);
+        self.authErrorBlock([NSError errorWithDomain:@"com.jernejstrasner.jsfacebook" code:100 userInfo:[NSDictionary dictionaryWithObject:[exception reason] forKey:NSLocalizedDescriptionKey]]);
+    }
+    
+    // Check for errors
+    NSString *errorString = [queryString getQueryValueWithKey:@"error"];
+    if (errorString != nil) {
+        // We have an error
+        NSString *errorDescription = [queryString getQueryValueWithKey:@"error_description"];
+        NSError *error = [NSError errorWithDomain:errorString code:666 userInfo:[NSDictionary dictionaryWithObject:errorDescription forKey:NSLocalizedDescriptionKey]];
+        // Error block
+        self.authErrorBlock(error);
+    } else {
+        // Request successfull, parse the token
+        NSString *token =	[[url absoluteString] getQueryValueWithKey:@"access_token"];
+        NSString *expTime =	[[url absoluteString] getQueryValueWithKey:@"expires_in"];
+        
+        NSDate *expirationDate = nil;
+        if (expTime != nil) {
+            int expVal = [expTime intValue];
+            if (expVal == 0) {
+                expirationDate = [NSDate distantFuture];
+            } else {
+                expirationDate = [NSDate dateWithTimeIntervalSinceNow:expVal];
+            }
+        }
+        
+        if ([token length] > 0) {
+            // We're done. We have the token.
+            [[JSFacebook sharedInstance] setAccessToken:token];
+            [[JSFacebook sharedInstance] setAccessTokenExpiryDate:expirationDate];
+            // Call the success block
+            self.authSuccessBlock();
+        } else {
+            // Oops. We have an error. No valid token found.
+            NSError *error = [NSError errorWithDomain:@"invalid_token" code:666 userInfo:[NSDictionary dictionaryWithObject:@"Invalid token" forKey:NSLocalizedDescriptionKey]];
+            self.authErrorBlock(error);
+        }
+    }
 }
 
 #pragma mark - Graph API requests
