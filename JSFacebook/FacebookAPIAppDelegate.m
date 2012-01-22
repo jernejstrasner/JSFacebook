@@ -94,14 +94,10 @@
 		DLog(@"Sucessfully logged in!");
 		// Successfully logged in
 		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidLoginNotification object:nil];
-		// Hide the window
-		[self.window.rootViewController dismissModalViewControllerAnimated:YES];
 	} onError:^(NSError *error) {
 		DLog(@"Error while logging in: %@", [error localizedDescription]);
 		// There was an error
 		[[NSNotificationCenter defaultCenter] postNotificationName:kFacebookDidNotLoginNotification object:nil];
-		// Hide the window
-		[self.window.rootViewController dismissModalViewControllerAnimated:YES];
 	}];
 	
     return YES;

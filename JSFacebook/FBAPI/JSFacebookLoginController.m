@@ -10,6 +10,14 @@
 
 #import "JSFacebook.h"
 
+@interface JSFacebookLoginController ()
+
+- (void)close;
+- (void)success;
+- (void)error:(NSError *)error;
+
+@end
+
 @implementation JSFacebookLoginController
 
 #pragma mark - Class methods
@@ -26,7 +34,7 @@
 @synthesize webView=_webView;
 @synthesize activityIndicator=_activityIndicator;
 
-#pragma mark - Object lifecycle
+#pragma mark - Lifecycle
 
 - (id)initWithPermissions:(NSArray *)permissions
 			 successBlock:(JSFBLoginSuccessBlock)successBlock
@@ -41,32 +49,11 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[_webView release];
-	[_activityIndicator release];
-	[_permissions release];
-	// Blocks
-	[_successBlock release];
-	[_errorBlock release];
-    [super dealloc];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - View lifecycle
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
-	self.title = @"Facebook Login";
+	self.title = @"Facebook";
 	
 	// Add the UIWebView
 	_webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
@@ -110,6 +97,40 @@
 	return YES;
 }
 
+- (void)dealloc
+{
+	[_webView release];
+	[_activityIndicator release];
+	[_permissions release];
+	// Blocks
+	[_successBlock release];
+	[_errorBlock release];
+    [super dealloc];
+}
+
+#pragma mark - Methods
+
+- (void)close
+{
+    if ([self respondsToSelector:@selector(presentingViewController)]) {
+        [self.presentingViewController dismissModalViewControllerAnimated:YES];
+    } else {
+        [self.parentViewController dismissModalViewControllerAnimated:YES];
+    }
+}
+
+- (void)success
+{
+    [self close];
+    _successBlock();
+}
+
+- (void)error:(NSError *)error
+{
+    [self close];
+    _errorBlock(error);
+}
+
 #pragma mark - UIWebViewDelegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
@@ -125,7 +146,7 @@
 			NSString *errorDescription = [[url absoluteString] getQueryValueWithKey:@"error_description"];
 			NSError *error = [NSError errorWithDomain:errorString code:666 userInfo:[NSDictionary dictionaryWithObject:errorDescription forKey:NSLocalizedDescriptionKey]];
 			// Error block
-			_errorBlock(error);
+			[self error:error];
 		} else {
 			// Request successfull, parse the token
 			NSString *token =	[[url absoluteString] getQueryValueWithKey:@"access_token"];
@@ -146,11 +167,11 @@
 				[[JSFacebook sharedInstance] setAccessToken:token];
 				[[JSFacebook sharedInstance] setAccessTokenExpiryDate:expirationDate];
 				// Call the success block
-				_successBlock();
+                [self success];
 			} else {
 				// Oops. We have an error. No valid token found.
 				NSError *error = [NSError errorWithDomain:@"invalid_token" code:666 userInfo:[NSDictionary dictionaryWithObject:@"Invalid token" forKey:NSLocalizedDescriptionKey]];
-				_errorBlock(error);
+                [self error:error];
 			}
 		}
 		return NO;
@@ -175,7 +196,7 @@
 		[self.activityIndicator stopAnimating];
 		[self.activityIndicator removeFromSuperview];
 	}
-	_errorBlock(error);
+    [self error:error];
 }
 
 @end
