@@ -61,6 +61,9 @@ typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 // Checks if the current login session is stil valid
 - (BOOL)isSessionValid;
 
+// Checks if the access token is still valid with the Facebook servers
+- (void)validateAccessTokenWithCompletionHandler:(void(^)(BOOL isValid))completionHandler;
+
 // Checks if the Facebook app ID was set and it's length is 15
 - (BOOL)isFacebookAppIDValid;
 

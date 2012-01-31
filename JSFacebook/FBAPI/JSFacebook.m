@@ -147,7 +147,8 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 	}
 }
 
-- (void)logout {
+- (void)logout
+{
 	// Nil out the properties
 	self.accessToken = nil;
 	self.accessTokenExpiryDate = nil;
@@ -157,11 +158,32 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (BOOL)isSessionValid {
+- (BOOL)isSessionValid
+{
 	if ([self.accessToken length] > 0 && [self.accessTokenExpiryDate timeIntervalSinceNow] > 0) {
 		return YES;
 	}
 	return NO;
+}
+
+- (void)validateAccessTokenWithCompletionHandler:(void (^)(BOOL))completionHandler
+{
+	// First check if we have the token and that it is not expired
+	if (![self isSessionValid]) {
+		completionHandler(NO);
+		return;
+	}
+	// Create a request to the Facebook servers to see if we have access with the token that we have
+	JSFacebookRequest *request = [JSFacebookRequest requestWithGraphPath:@"/me"];
+	[request addParameter:@"fields" withValue:@"id"];
+	[[JSFacebook sharedInstance] fetchRequest:request onSuccess:^(id responseObject) {
+		// Access token is valid
+		completionHandler(YES);
+	} onError:^(NSError *error) {
+		// Not valid
+		NSLog(@"Error: %@", [error localizedDescription]);
+		completionHandler(NO);
+	}];
 }
 
 - (BOOL)isFacebookAppIDValid
