@@ -180,6 +180,7 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
     @catch (NSException *exception) {
         ALog(@"Could not parse the query string: %@", [exception reason]);
         self.authErrorBlock([NSError errorWithDomain:@"com.jernejstrasner.jsfacebook" code:100 userInfo:[NSDictionary dictionaryWithObject:[exception reason] forKey:NSLocalizedDescriptionKey]]);
+		return;
     }
     
     // Check for errors
