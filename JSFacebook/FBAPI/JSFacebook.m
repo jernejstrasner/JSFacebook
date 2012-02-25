@@ -300,37 +300,37 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 	[request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
 	
 	dispatch_async(network_queue, ^{
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		// Queue the request
-		NSHTTPURLResponse *response = nil;
-		NSError *error = nil;
-		NSData *httpData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-		// Parse the data into a string (if valid)
-		if (error == nil && httpData != nil) {
-			NSString *responseString = [[[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding] autorelease];
-			// It's JSON so parse it
-			id jsonObject = [responseString objectFromJSONString];
-			// Check for errors
-			if ([jsonObject isKindOfClass:[NSDictionary class]] &&
-				[jsonObject valueForKey:@"error"] != nil)
-			{
-				error = [NSError errorWithDomain:[jsonObject valueForKeyPath:@"error.type"] code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[jsonObject valueForKeyPath:@"error.message"], NSLocalizedDescriptionKey, nil]];
+		@autoreleasepool {
+			// Queue the request
+			NSHTTPURLResponse *response = nil;
+			NSError *error = nil;
+			NSData *httpData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+			// Parse the data into a string (if valid)
+			if (error == nil && httpData != nil) {
+				NSString *responseString = [[[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding] autorelease];
+				// It's JSON so parse it
+				id jsonObject = [responseString objectFromJSONString];
+				// Check for errors
+				if ([jsonObject isKindOfClass:[NSDictionary class]] &&
+					[jsonObject valueForKey:@"error"] != nil)
+				{
+					error = [NSError errorWithDomain:[jsonObject valueForKeyPath:@"error.type"] code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[jsonObject valueForKeyPath:@"error.message"], NSLocalizedDescriptionKey, nil]];
+					dispatch_async(dispatch_get_main_queue(), ^(void) {
+						errBlock(error);
+					});
+				} else {
+					// Execute the block
+					dispatch_async(dispatch_get_main_queue(), ^(void) {
+						succBlock(jsonObject);
+					});
+				}
+			} else {
+				// We have an error to handle
 				dispatch_async(dispatch_get_main_queue(), ^(void) {
 					errBlock(error);
 				});
-			} else {
-				// Execute the block
-				dispatch_async(dispatch_get_main_queue(), ^(void) {
-					succBlock(jsonObject);
-				});
 			}
-		} else {
-			// We have an error to handle
-			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				errBlock(error);
-			});
 		}
-		[pool drain];
 	});
 	
 	[request release];
@@ -429,45 +429,45 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 	[request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
 	
 	dispatch_async(network_queue, ^{
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		// Queue the request
-		NSHTTPURLResponse *response = nil;
-		NSError *error = nil;
-		NSData *httpData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-		// Parse the data into a string (if valid)
-		if (error == nil && httpData != nil) {
-			NSString *responseString = [[[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding] autorelease];
-			// It's JSON so parse it
-			NSArray *jsonObject = [responseString objectFromJSONString];
-			// Parse the different batch requests
-			NSMutableArray *batchResponses = [NSMutableArray array];
-			for (id responseObject in jsonObject) {
-				if (![responseObject isKindOfClass:[NSDictionary class]]) {
-					[batchResponses addObject:[NSNull null]];
-					continue;
+		@autoreleasepool {
+			// Queue the request
+			NSHTTPURLResponse *response = nil;
+			NSError *error = nil;
+			NSData *httpData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+			// Parse the data into a string (if valid)
+			if (error == nil && httpData != nil) {
+				NSString *responseString = [[[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding] autorelease];
+				// It's JSON so parse it
+				NSArray *jsonObject = [responseString objectFromJSONString];
+				// Parse the different batch requests
+				NSMutableArray *batchResponses = [NSMutableArray array];
+				for (id responseObject in jsonObject) {
+					if (![responseObject isKindOfClass:[NSDictionary class]]) {
+						[batchResponses addObject:[NSNull null]];
+						continue;
+					}
+					// Check for errors
+					int response_code = [[responseObject valueForKey:@"code"] intValue];
+					NSDictionary *data = [[responseObject valueForKey:@"body"] objectFromJSONString];
+					if (response_code != 200) {
+						// We have an error
+						error = [NSError errorWithDomain:[data valueForKeyPath:@"error.type"] code:response_code userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[data valueForKeyPath:@"error.message"], NSLocalizedDescriptionKey, nil]];
+						[batchResponses addObject:error];
+					} else {
+						[batchResponses addObject:data];
+					}
 				}
-				// Check for errors
-				int response_code = [[responseObject valueForKey:@"code"] intValue];
-				NSDictionary *data = [[responseObject valueForKey:@"body"] objectFromJSONString];
-				if (response_code != 200) {
-					// We have an error
-					error = [NSError errorWithDomain:[data valueForKeyPath:@"error.type"] code:response_code userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[data valueForKeyPath:@"error.message"], NSLocalizedDescriptionKey, nil]];
-					[batchResponses addObject:error];
-				} else {
-					[batchResponses addObject:data];
-				}
+				// Execute the block
+				dispatch_async(dispatch_get_main_queue(), ^(void) {
+					succBlock(batchResponses);
+				});
+			} else {
+				// We have an error to handle
+				dispatch_async(dispatch_get_main_queue(), ^(void) {
+					errBlock(error);
+				});
 			}
-			// Execute the block
-			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				succBlock(batchResponses);
-			});
-		} else {
-			// We have an error to handle
-			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				errBlock(error);
-			});
 		}
-		[pool drain];
 	});
 	
 	[request release];
