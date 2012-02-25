@@ -9,13 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface JSFacebookRequest : NSObject {
-	NSString *graphPath_;
-	NSString *httpMethod_;
-	NSMutableDictionary *params_;
-	NSString *name_;
-	BOOL omitResponseOnSuccess_;
-}
+@interface JSFacebookRequest : NSObject
 
 @property (nonatomic, retain) NSString *graphPath;
 @property (nonatomic, retain) NSString *httpMethod;

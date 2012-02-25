@@ -9,13 +9,22 @@
 #import "JSFacebookRequest.h"
 
 
-@implementation JSFacebookRequest
+@implementation JSFacebookRequest {
+	NSMutableDictionary *params_;
+}
 
 #pragma mark - Properties
 
 @synthesize graphPath=graphPath_;
 @synthesize httpMethod=httpMethod_;
-@synthesize parameters=params_;
+
+@synthesize parameters=_parameters;
+
+- (NSDictionary *)parameters
+{
+	return [NSDictionary dictionaryWithDictionary:params_];
+}
+
 @synthesize name=name_;
 @synthesize omitResponseOnSuccess=omitResponseOnSuccess_;
 
@@ -38,6 +47,7 @@
 	if (self) {
 		httpMethod_ = [[NSString alloc] initWithString:@"GET"];
 		omitResponseOnSuccess_ = YES;
+		params_ = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
@@ -56,6 +66,7 @@
 	[graphPath_ release];
 	[httpMethod_ release];
 	[params_ release];
+	[_parameters release];
 	[name_ release];
 	[super dealloc];
 }
