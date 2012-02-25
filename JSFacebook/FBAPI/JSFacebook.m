@@ -11,9 +11,6 @@
 
 
 // Constants
-float const kJSFacebookImageQuality = 0.8; // JPEG compression ration when uploading images
-BOOL const kJSFacebookUseSSO        = YES; // Set to no if you don't want to use single sign on
-
 NSString * const kJSFacebookStringBoundary				= @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
 NSString * const kJSFacebookGraphAPIEndpoint			= @"https://graph.facebook.com/";
 NSString * const kJSFacebookAccessTokenKey				= @"JSFacebookAccessToken";
@@ -65,12 +62,17 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 
 @synthesize authErrorBlock;
 @synthesize authSuccessBlock;
+@synthesize imageQuality = _imageQuality;
+@synthesize useSSO = _useSSO;
 
 #pragma mark - Lifecycle
 
 - (id)init {
 	self = [super init];
 	if (self) {
+		// Default properties
+		_useSSO = YES;
+		_imageQuality = 0.8f;
 		// Init the network queue
 		network_queue = dispatch_queue_create("com.jsfacebook.network", NULL);
 		// Check if we have an access token saved and it is stil valid
@@ -114,7 +116,7 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
     }
 	if (![self isSessionValid]) {
         // Check for SSO support
-        if (kJSFacebookUseSSO && [UIDevice instanceMethodForSelector:@selector(isMultitaskingSupported)] && [[UIDevice currentDevice] isMultitaskingSupported]) {
+        if (self.useSSO && [UIDevice instanceMethodForSelector:@selector(isMultitaskingSupported)] && [[UIDevice currentDevice] isMultitaskingSupported]) {
             // Save the blocks
             self.authSuccessBlock = succBlock;
             self.authErrorBlock = errBlock;

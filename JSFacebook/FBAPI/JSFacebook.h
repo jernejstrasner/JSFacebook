@@ -82,4 +82,13 @@ typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 			onSuccess:(JSFBBatchSuccessBlock)succBlock
 			  onError:(JSFBErrorBlock)errBlock;
 
+#pragma mark Preferences
+
+// Upload image quality (default 0.8 aka. 80% JPEG)
+@property (nonatomic, assign) CGFloat imageQuality;
+
+// Use SSO for authentication?
+// More info: https://developers.facebook.com/docs/mobile/ios/build/#implementsso
+@property (nonatomic, assign) BOOL useSSO;
+
 @end
