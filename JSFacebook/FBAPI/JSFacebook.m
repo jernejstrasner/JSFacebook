@@ -20,7 +20,9 @@ NSString * const kJSFacebookAccessTokenKey				= @"JSFacebookAccessToken";
 NSString * const kJSFacebookAccessTokenExpiryDateKey	= @"JSFacebookAccessTokenExpiryDate";
 NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/";
 
-@interface JSFacebook ()
+@interface JSFacebook () {
+	dispatch_queue_t network_queue;
+}
 
 @property (nonatomic, copy) JSFBLoginSuccessBlock authSuccessBlock;
 @property (nonatomic, copy) JSFBLoginErrorBlock authErrorBlock;

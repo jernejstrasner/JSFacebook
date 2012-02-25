@@ -28,15 +28,7 @@ typedef void (^JSFBSuccessBlock)(id responseObject);
 typedef void (^JSFBErrorBlock)(NSError *error);
 typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 
-@interface JSFacebook : NSObject {
-	// Access token
-	NSString *_accessToken;
-	NSDate *_accessTokenExpiryDate;
-
-	@private
-	// Grand Central Dispatch
-	dispatch_queue_t network_queue;	
-}
+@interface JSFacebook : NSObject
 
 @property (nonatomic, retain) NSString *facebookAppID;
 @property (nonatomic, retain) NSString *accessToken;
