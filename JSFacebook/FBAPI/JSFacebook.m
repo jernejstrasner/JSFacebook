@@ -53,6 +53,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 	_accessToken = [accessToken retain];
 	
 	[[NSUserDefaults standardUserDefaults] setValue:accessToken forKey:kJSFacebookAccessTokenKey];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)setAccessTokenExpiryDate:(NSDate *)accessTokenExpiryDate {
@@ -60,6 +61,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 	_accessTokenExpiryDate = [accessTokenExpiryDate retain];
 	
 	[[NSUserDefaults standardUserDefaults] setValue:accessTokenExpiryDate forKey:kJSFacebookAccessTokenExpiryDateKey];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @synthesize authErrorBlock;
