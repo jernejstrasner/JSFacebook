@@ -17,10 +17,17 @@
 
 // Constants
 extern NSString * const kJSFacebookStringBoundary;
-extern float const kJSFacebookImageQuality;
 extern NSString * const kJSFacebookGraphAPIEndpoint;
 extern NSString * const kJSFacebookAccessTokenKey;
 extern NSString * const kJSFacebookAccessTokenExpiryDateKey;
+extern NSString * const kJSFacebookErrorDomain;
+
+enum {
+	JSFacebookErrorCodeOther = 0,
+	JSFacebookErrorCodeNetwork = 1,
+	JSFacebookErrorCodeAuthentication = 2,
+	JSFacebookErrorCodeServer = 3
+};
 
 // Typedefs
 typedef void (^JSFBVoidBlock)(void);
@@ -31,6 +38,7 @@ typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 @interface JSFacebook : NSObject
 
 @property (nonatomic, retain) NSString *facebookAppID;
+@property (nonatomic, retain) NSString *facebookAppSecret;
 @property (nonatomic, retain) NSString *accessToken;
 @property (nonatomic, retain) NSDate *accessTokenExpiryDate;
 
@@ -55,6 +63,9 @@ typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 
 // Checks if the access token is still valid with the Facebook servers
 - (void)validateAccessTokenWithCompletionHandler:(void(^)(BOOL isValid))completionHandler;
+
+// Extends the access token's expiry date for 60 days
+- (void)extendAccessTokenExpirationWithCompletionHandler:(void(^)(NSError *))completionHandler;
 
 // Checks if the Facebook app ID was set and it's length is 15
 - (BOOL)isFacebookAppIDValid;

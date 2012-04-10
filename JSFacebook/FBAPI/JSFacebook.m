@@ -16,6 +16,7 @@ NSString * const kJSFacebookGraphAPIEndpoint			= @"https://graph.facebook.com/";
 NSString * const kJSFacebookAccessTokenKey				= @"JSFacebookAccessToken";
 NSString * const kJSFacebookAccessTokenExpiryDateKey	= @"JSFacebookAccessTokenExpiryDate";
 NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/";
+NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 
 @interface JSFacebook () {
 	dispatch_queue_t network_queue;
@@ -45,6 +46,7 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 @synthesize accessToken=_accessToken;
 @synthesize accessTokenExpiryDate=_accessTokenExpiryDate;
 @synthesize facebookAppID=_facebookAppID;
+@synthesize facebookAppSecret=_facebookAppSecret;
 
 - (void)setAccessToken:(NSString *)accessToken {
 	[_accessToken release];
@@ -94,6 +96,7 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 	[_accessToken release];
 	[_accessTokenExpiryDate release];
     [_facebookAppID release];
+	[_facebookAppSecret release];
 	// Dispatch stuff
 	dispatch_release(network_queue);
     // Blocks
@@ -190,6 +193,51 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 	}];
 }
 
+- (void)extendAccessTokenExpirationWithCompletionHandler:(void (^)(NSError *))completionHandler
+{
+	if (![self isSessionValid]) {
+		ALog(@"ERROR: Session invalid");
+		NSError *error = [NSError errorWithDomain:kJSFacebookErrorDomain code:JSFacebookErrorCodeAuthentication userInfo:nil];
+		if (completionHandler) completionHandler(error);
+		return;
+	}
+	
+	// We need the app secret for this
+	if (![self.facebookAppSecret length]) {
+		ALog(@"ERROR: Missing facebook app secret");
+		NSError *error = [NSError errorWithDomain:kJSFacebookErrorDomain code:JSFacebookErrorCodeOther userInfo:nil];
+		if (completionHandler) completionHandler(error);
+		return;
+	}
+	
+	JSFacebookRequest *request = [JSFacebookRequest requestWithGraphPath:@"/oauth/access_token"];
+	[request setAuthenticate:NO];
+	[request addParameter:@"fb_exchange_token" withValue:self.accessToken];
+	[request addParameter:@"grant_type" withValue:@"fb_exchange_token"];
+	[request addParameter:@"client_id" withValue:self.facebookAppID];
+	[request addParameter:@"client_secret" withValue:self.facebookAppSecret];
+	[[JSFacebook sharedInstance] fetchRequest:request onSuccess:^(id responseObject) {
+		// Get the data (it is URL encoded)
+		NSString *accessToken = [responseObject getQueryValueWithKey:@"access_token"];
+		NSString *expiry = [responseObject getQueryValueWithKey:@"expires"];
+		if (!accessToken.length || !expiry.length) {
+			DLog(@"ERROR: Access token or expiry date missing!");
+			NSError *error = [NSError errorWithDomain:kJSFacebookErrorDomain code:JSFacebookErrorCodeServer userInfo:[NSDictionary dictionaryWithObject:@"Crucial data is missing from the response" forKey:NSLocalizedDescriptionKey]];
+			if (completionHandler) completionHandler(error);
+		}
+		
+		// Set the new info
+		self.accessToken = accessToken;
+		self.accessTokenExpiryDate = [NSDate dateWithTimeIntervalSinceNow:[expiry doubleValue]];
+		
+		if (completionHandler) completionHandler(nil);
+		
+	} onError:^(NSError *error) {
+		DLog(@"ERROR: Could not extend the access token!");
+		if (completionHandler) completionHandler(error);
+	}];
+}
+
 - (BOOL)isFacebookAppIDValid
 {
     // Check if the Facebook app ID is valid
@@ -257,7 +305,7 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 	[params_ setValue:@"json" forKey:@"format"];
 
 	// Add the access token
-	if ([self isSessionValid]) {
+	if (graphRequest.authenticate && [self isSessionValid]) {
 		[params_ setValue:self.accessToken forKey:@"access_token"];
 	}
 	
@@ -311,14 +359,21 @@ NSString * const kJSFacebookSSOAuthURL                  = @"fbauth://authorize/"
 				// It's JSON so parse it
 				id jsonObject = [responseString objectFromJSONString];
 				// Check for errors
-				if ([jsonObject isKindOfClass:[NSDictionary class]] &&
-					[jsonObject valueForKey:@"error"] != nil)
-				{
+				if (jsonObject == nil && responseString.length > 0) {
+					// Something is in there but isn't JSON
+					// Pass it directly
+					dispatch_async(dispatch_get_main_queue(), ^(void) {
+						succBlock(responseString);
+					});
+				}
+				else if ([jsonObject isKindOfClass:[NSDictionary class]] && [jsonObject valueForKey:@"error"] != nil) {
+					// If there is an error object in the response, something went wront at Facebook's servers
 					error = [NSError errorWithDomain:[jsonObject valueForKeyPath:@"error.type"] code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[jsonObject valueForKeyPath:@"error.message"], NSLocalizedDescriptionKey, nil]];
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
 						errBlock(error);
 					});
-				} else {
+				}
+				else {
 					// Execute the block
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
 						succBlock(jsonObject);

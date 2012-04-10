@@ -16,6 +16,7 @@
 @property (nonatomic, readonly) NSDictionary *parameters;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) BOOL omitResponseOnSuccess;
+@property (nonatomic, assign) BOOL authenticate;
 
 - (id)initWithGraphPath:(NSString *)graphPath;
 

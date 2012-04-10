@@ -70,14 +70,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		19518FDE1347BE9200ABE293 /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-				19518FDF1347BE9400ABE293 /* MainWindow-iPad.xib */,
-			);
-			name = iPad;
-			sourceTree = "<group>";
-		};
 		1958B96A133E896400C90D1A = {
 			isa = PBXGroup;
 			children = (
@@ -112,10 +104,8 @@
 				1958B9DC133E92CB00C90D1A /* FBAPI */,
 				1958B988133E896500C90D1A /* FacebookAPIAppDelegate.h */,
 				1958B989133E896500C90D1A /* FacebookAPIAppDelegate.m */,
-				1958B98B133E896500C90D1A /* MainWindow.xib */,
 				1958B98E133E896500C90D1A /* RootViewController.h */,
 				1958B98F133E896500C90D1A /* RootViewController.m */,
-				19518FDE1347BE9200ABE293 /* iPad */,
 				1958B980133E896500C90D1A /* Supporting Files */,
 			);
 			path = JSFacebook;
@@ -124,6 +114,8 @@
 		1958B980133E896500C90D1A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1958B98B133E896500C90D1A /* MainWindow.xib */,
+				19518FDF1347BE9400ABE293 /* MainWindow-iPad.xib */,
 				1910371C1345326300922D54 /* Readme.markdown */,
 				1958B981133E896500C90D1A /* JSFacebook-Info.plist */,
 				1958B982133E896500C90D1A /* InfoPlist.strings */,

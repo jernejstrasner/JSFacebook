@@ -29,20 +29,10 @@
 	return YES;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc that aren't in use.
-}
-
 - (void)viewDidUnload
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
-	
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
 }
 
 - (void)dealloc
@@ -60,6 +50,15 @@
 	
 	JSFacebook *facebook = [JSFacebook sharedInstance];
 	
+	// Test the token extension
+	[facebook extendAccessTokenExpirationWithCompletionHandler:^(NSError *error) {
+		if (error) {
+			DLog(@"Token extension error: %@", [error localizedDescription]);
+		} else {
+			DLog(@"Succesfully extended token!");
+		}
+	}];
+
 	// Just make some random requests to test the queuing feature
 	[facebook requestWithGraphPath:@"/me/home" onSuccess:^(id responseObject) {
 		DLog(@"Response 1 received!");
@@ -97,7 +96,7 @@
 		DLog(@"Responses:\n%@", responseObjects);
 	} onError:^(NSError *error) {
 		DLog(@"Error: %@", [error localizedDescription]);
-	}];
+	}];	
 }
 
 @end

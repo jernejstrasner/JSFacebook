@@ -27,6 +27,7 @@
 
 @synthesize name=name_;
 @synthesize omitResponseOnSuccess=omitResponseOnSuccess_;
+@synthesize authenticate=_authenticate;
 
 - (void)addParameter:(NSString *)key withValue:(id)value {
 	// Create the parameters dictionary if it doesn't exist
@@ -42,24 +43,20 @@
 
 #pragma mark - Lifecycle
 
-- (id)init {
-	self = [super init];
-	if (self) {
-		httpMethod_ = [[NSString alloc] initWithString:@"GET"];
-		omitResponseOnSuccess_ = YES;
-		params_ = [[NSMutableDictionary alloc] init];
-	}
-	return self;
-}
-
 - (id)initWithGraphPath:(NSString *)graphPath {
 	self = [super init];
 	if (self) {
 		graphPath_ = [graphPath retain];
 		httpMethod_ = [[NSString alloc] initWithString:@"GET"];
 		omitResponseOnSuccess_ = YES;
+		params_ = [[NSMutableDictionary alloc] init];
+		_authenticate = YES;
 	}
 	return self;
+}
+
+- (id)init {
+	return [self initWithGraphPath:nil];
 }
 
 - (void)dealloc {
