@@ -47,6 +47,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 @synthesize accessTokenExpiryDate=_accessTokenExpiryDate;
 @synthesize facebookAppID=_facebookAppID;
 @synthesize facebookAppSecret=_facebookAppSecret;
+@synthesize urlSchemeSuffix=_urlSchemeSuffix;
 
 - (void)setAccessToken:(NSString *)accessToken {
 	[_accessToken release];
@@ -99,6 +100,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 	[_accessTokenExpiryDate release];
     [_facebookAppID release];
 	[_facebookAppSecret release];
+	[_urlSchemeSuffix release];
 	// Dispatch stuff
 	dispatch_release(network_queue);
     // Blocks
@@ -137,7 +139,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
             BOOL didOpenApp = [[UIApplication sharedApplication] openURL:url];
             // If it failed open Safari
             if (didOpenApp == NO) {
-                [params setValue:[NSString stringWithFormat:@"fb%@://authorize", self.facebookAppID] forKey:@"redirect_uri"];
+                [params setValue:[NSString stringWithFormat:@"fb%@%@://authorize", self.facebookAppID, (self.urlSchemeSuffix ?: @"")] forKey:@"redirect_uri"];
                 url = [NSURL URLWithString:[NSString stringWithFormat:@"https://m.facebook.com/dialog/oauth?%@&scope=%@", [params generateGETParameters], [permissions componentsJoinedByString:@","]]];
                 [[UIApplication sharedApplication] openURL:url];
             }

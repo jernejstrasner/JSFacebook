@@ -39,6 +39,7 @@ typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 
 @property (nonatomic, retain) NSString *facebookAppID;
 @property (nonatomic, retain) NSString *facebookAppSecret;
+@property (nonatomic, retain) NSString *urlSchemeSuffix;
 @property (nonatomic, retain) NSString *accessToken;
 @property (nonatomic, retain) NSDate *accessTokenExpiryDate;
 
