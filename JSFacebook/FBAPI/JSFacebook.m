@@ -305,7 +305,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 			 onError:(JSFBErrorBlock)errBlock
 {
 	// Additional parameters
-	NSMutableDictionary *params_ = [graphRequest.parameters mutableCopy];
+	NSMutableDictionary *params_ = [[graphRequest.parameters mutableCopy] autorelease];
 	[params_ setValue:@"json" forKey:@"format"];
 
 	// Add the access token
