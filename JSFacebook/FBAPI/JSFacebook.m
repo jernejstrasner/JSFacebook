@@ -133,7 +133,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
             [params setValue:@"user_agent" forKey:@"type"];
             [params setValue:@"touch" forKey:@"display"];
             [params setValue:@"ios" forKey:@"sdk"];
-            [params setValue:@"fbconnect://success" forKey:@"redirect_uri"];
+            [params setValue:[NSString stringWithFormat:@"fb%@%@://authorize", self.facebookAppID, (self.urlSchemeSuffix ?: @"")] forKey:@"redirect_uri"];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@&scope=%@", kJSFacebookSSOAuthURL, [params generateGETParameters], [permissions componentsJoinedByString:@","]]];
             // Open the SSO URL
             BOOL didOpenApp = [[UIApplication sharedApplication] openURL:url];
