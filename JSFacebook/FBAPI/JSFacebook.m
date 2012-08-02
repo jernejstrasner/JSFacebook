@@ -361,15 +361,9 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 			if (error == nil && httpData != nil) {
 				NSString *responseString = [[[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding] autorelease];
 				// It's JSON so parse it
-				id jsonObject = [NSJSONSerialization JSONObjectWithData:httpData options:0 error:&error];
-				if (error) {
-					// Could not parse JSON
-					dispatch_async(dispatch_get_main_queue(), ^{
-						errBlock(error);
-					});
-				}
-				// Check for errors
-				if (jsonObject == nil && responseString.length > 0) {
+				NSError *jsonError = nil;
+				id jsonObject = [NSJSONSerialization JSONObjectWithData:httpData options:0 error:&jsonError];
+				if (jsonError != nil && jsonObject == nil && responseString.length > 0) {
 					// Something is in there but isn't JSON
 					// Pass it directly
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -502,12 +496,14 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 			// Parse the data into a string (if valid)
 			if (error == nil && httpData != nil) {
 				// It's JSON so parse it
-				id jsonObject = [NSJSONSerialization JSONObjectWithData:httpData options:0 error:&error];
-				if (error) {
+				NSError *jsonError = nil;
+				id jsonObject = [NSJSONSerialization JSONObjectWithData:httpData options:0 error:&jsonError];
+				if (jsonError != nil) {
 					// Could not parse JSON
 					dispatch_async(dispatch_get_main_queue(), ^{
 						errBlock(error);
 					});
+					return;
 				}
 				// Parse the different batch requests
 				NSMutableArray *batchResponses = [NSMutableArray array];

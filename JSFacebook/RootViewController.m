@@ -48,6 +48,8 @@
 	 * Test the Facebook API
 	 */
 	
+	NSLog(@"Testing the API...");
+	
 	JSFacebook *facebook = [JSFacebook sharedInstance];
 	
 	// Test the token extension

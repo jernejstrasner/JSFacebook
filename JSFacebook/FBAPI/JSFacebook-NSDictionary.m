@@ -10,14 +10,15 @@
 
 @implementation NSDictionary (JSFacebook)
 
-- (NSString *)generateGETParameters {
+- (NSString *)generateGETParameters
+{
 	NSMutableArray *pairs = [NSMutableArray new];
 	for (NSString *key in self) {
 		// Get the object
 		id obj = [self valueForKey:key];
 		// Encode arrays and dictionaries in JSON
 		if ([obj isKindOfClass:[NSArray class]] || [obj isKindOfClass:[NSDictionary class]]) {
-			obj = [obj JSONString];
+			obj = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:obj options:0 error:nil] encoding:NSUTF8StringEncoding];
 		}
 		// Escaping
 		NSString *escaped_value = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, /* allocator */
@@ -36,7 +37,8 @@
 	return parameters;
 }
 
-- (NSData *)generatePOSTBodyWithBoundary:(NSString *)boundary {
+- (NSData *)generatePOSTBodyWithBoundary:(NSString *)boundary
+{
 	NSMutableData *body = [NSMutableData data];
 	NSString *beginLine = [NSString stringWithFormat:@"\r\n--%@\r\n", boundary];
 	
@@ -55,7 +57,7 @@
 		} else if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray class]]) {
 			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];        
 			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[value JSONData]];
+			[body appendData:[NSJSONSerialization dataWithJSONObject:value options:0 error:nil]];
 		} else {
 			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];        
 			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
