@@ -226,7 +226,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 		NSString *expiry = [responseObject getQueryValueWithKey:@"expires"];
 		if (!accessToken.length || !expiry.length) {
 			DLog(@"ERROR: Access token or expiry date missing!");
-			NSError *error = [NSError errorWithDomain:kJSFacebookErrorDomain code:JSFacebookErrorCodeServer userInfo:[NSDictionary dictionaryWithObject:@"Crucial data is missing from the response" forKey:NSLocalizedDescriptionKey]];
+			NSError *error = [NSError errorWithDomain:kJSFacebookErrorDomain code:JSFacebookErrorCodeServer userInfo:@{NSLocalizedDescriptionKey: @"Crucial data is missing from the response"}];
 			if (completionHandler) completionHandler(error);
 		}
 		
@@ -257,7 +257,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
     }
     @catch (NSException *exception) {
         ALog(@"Could not parse the query string: %@", [exception reason]);
-        self.authErrorBlock([NSError errorWithDomain:@"com.jernejstrasner.jsfacebook" code:100 userInfo:[NSDictionary dictionaryWithObject:[exception reason] forKey:NSLocalizedDescriptionKey]]);
+        self.authErrorBlock([NSError errorWithDomain:@"com.jernejstrasner.jsfacebook" code:100 userInfo:@{NSLocalizedDescriptionKey: [exception reason]}]);
 		return;
     }
     
@@ -266,7 +266,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
     if (errorString != nil) {
         // We have an error
         NSString *errorDescription = [queryString getQueryValueWithKey:@"error_description"];
-        NSError *error = [NSError errorWithDomain:errorString code:666 userInfo:[NSDictionary dictionaryWithObject:errorDescription forKey:NSLocalizedDescriptionKey]];
+        NSError *error = [NSError errorWithDomain:errorString code:666 userInfo:@{NSLocalizedDescriptionKey: errorDescription}];
         // Error block
         self.authErrorBlock(error);
     } else {
@@ -292,7 +292,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
             self.authSuccessBlock();
         } else {
             // Oops. We have an error. No valid token found.
-            NSError *error = [NSError errorWithDomain:@"invalid_token" code:666 userInfo:[NSDictionary dictionaryWithObject:@"Invalid token" forKey:NSLocalizedDescriptionKey]];
+            NSError *error = [NSError errorWithDomain:@"invalid_token" code:666 userInfo:@{NSLocalizedDescriptionKey: @"Invalid token"}];
             self.authErrorBlock(error);
         }
     }
@@ -372,7 +372,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 				}
 				else if ([jsonObject isKindOfClass:[NSDictionary class]] && [jsonObject valueForKey:@"error"] != nil) {
 					// If there is an error object in the response, something went wront at Facebook's servers
-					error = [NSError errorWithDomain:[jsonObject valueForKeyPath:@"error.type"] code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[jsonObject valueForKeyPath:@"error.message"], NSLocalizedDescriptionKey, nil]];
+					error = [NSError errorWithDomain:[jsonObject valueForKeyPath:@"error.type"] code:0 userInfo:@{NSLocalizedDescriptionKey: [jsonObject valueForKeyPath:@"error.message"]}];
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
 						errBlock(error);
 					});
@@ -447,7 +447,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 		// Omit the result form the parent's response
 		// (in the case of depedencies between batch calls)
 		if (!graphRequest.omitResponseOnSuccess) {
-			[batchParams setValue:[NSNumber numberWithBool:NO] forKey:@"omit_response_on_success"];
+			[batchParams setValue:@(NO) forKey:@"omit_response_on_success"];
 		}
 		
 		// Different parameters encoding for differet methods
@@ -518,7 +518,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 					NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[[responseObject valueForKey:@"body"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&jsonError];
 					if (response_code != 200 || jsonError) {
 						// We have an error
-						error = [NSError errorWithDomain:[data valueForKeyPath:@"error.type"] code:response_code userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[data valueForKeyPath:@"error.message"], NSLocalizedDescriptionKey, nil]];
+						error = [NSError errorWithDomain:[data valueForKeyPath:@"error.type"] code:response_code userInfo:@{NSLocalizedDescriptionKey: [data valueForKeyPath:@"error.message"]}];
 						[batchResponses addObject:error];
 					} else {
 						[batchResponses addObject:data];

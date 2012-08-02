@@ -36,8 +36,7 @@
 	
 	// Permissions reference: http://developers.facebook.com/docs/authentication/permissions/
 	// Enter the permissions you want in this array
-	NSArray *permissions = [NSArray arrayWithObjects:
-							@"read_stream",
+	NSArray *permissions = @[@"read_stream",
 							@"read_mailbox",
 							@"read_friendlists",
 							@"user_about_me",
@@ -88,8 +87,7 @@
 							// Publishing
 							@"publish_stream",
 							@"create_event",
-							@"rsvp_event",
-							nil];
+							@"rsvp_event"];
 
 	[[JSFacebook sharedInstance] loginWithPermissions:permissions onSuccess:^(void) {
 		DLog(@"Sucessfully logged in!");

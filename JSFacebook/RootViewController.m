@@ -94,7 +94,7 @@
 	JSFacebookRequest *request1 = [JSFacebookRequest requestWithGraphPath:@"me/friends?limit=5"];
 	[request1 setName:@"get-friends"];
 	JSFacebookRequest *request2 = [JSFacebookRequest requestWithGraphPath:@"?ids={result=get-friends:$.data..id}"];
-	[facebook fetchRequests:[NSArray arrayWithObjects:request1, request2, nil] onSuccess:^(NSArray *responseObjects) {
+	[facebook fetchRequests:@[request1, request2] onSuccess:^(NSArray *responseObjects) {
 		DLog(@"Responses:\n%@", responseObjects);
 	} onError:^(NSError *error) {
 		DLog(@"Error: %@", [error localizedDescription]);

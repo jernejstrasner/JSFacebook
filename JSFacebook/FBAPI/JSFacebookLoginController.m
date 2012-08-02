@@ -165,7 +165,7 @@
 - (void)cancel
 {
     [self close];
-    self.errorHandler([NSError errorWithDomain:@"com.jernejstrasner.jsfacebook" code:1 userInfo:[NSDictionary dictionaryWithObject:@"The user cancelled the login action" forKey:NSLocalizedDescriptionKey]]);
+    self.errorHandler([NSError errorWithDomain:@"com.jernejstrasner.jsfacebook" code:1 userInfo:@{NSLocalizedDescriptionKey: @"The user cancelled the login action"}]);
 }
 
 #pragma mark - UIWebViewDelegate
@@ -180,7 +180,7 @@
 		if (errorString != nil) {
 			// We have an error
 			NSString *errorDescription = [[url absoluteString] getQueryValueWithKey:@"error_description"];
-			NSError *error = [NSError errorWithDomain:errorString code:666 userInfo:[NSDictionary dictionaryWithObject:errorDescription forKey:NSLocalizedDescriptionKey]];
+			NSError *error = [NSError errorWithDomain:errorString code:666 userInfo:@{NSLocalizedDescriptionKey: errorDescription}];
 			// Error block
 			[self error:error];
 		} else {
@@ -206,7 +206,7 @@
                 [self success];
 			} else {
 				// Oops. We have an error. No valid token found.
-				NSError *error = [NSError errorWithDomain:@"invalid_token" code:666 userInfo:[NSDictionary dictionaryWithObject:@"Invalid token" forKey:NSLocalizedDescriptionKey]];
+				NSError *error = [NSError errorWithDomain:@"invalid_token" code:666 userInfo:@{NSLocalizedDescriptionKey: @"Invalid token"}];
                 [self error:error];
 			}
 		}
