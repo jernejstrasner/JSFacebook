@@ -11,12 +11,12 @@
 
 @interface JSFacebookRequest : NSObject
 
-@property (nonatomic, retain) NSString *graphPath;
-@property (nonatomic, retain) NSString *httpMethod;
-@property (nonatomic, readonly) NSDictionary *parameters;
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, assign) BOOL omitResponseOnSuccess;
-@property (nonatomic, assign) BOOL authenticate;
+@property (nonatomic, strong) NSString *graphPath;
+@property (nonatomic, strong) NSString *httpMethod;
+@property (strong, nonatomic, readonly) NSDictionary *parameters;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic) BOOL omitResponseOnSuccess;
+@property (nonatomic) BOOL authenticate;
 
 - (id)initWithGraphPath:(NSString *)graphPath;
 

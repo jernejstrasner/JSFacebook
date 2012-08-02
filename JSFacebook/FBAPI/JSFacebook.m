@@ -8,7 +8,6 @@
 
 #import "JSFacebook.h"
 
-
 // Constants
 NSString * const kJSFacebookStringBoundary				= @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
 NSString * const kJSFacebookGraphAPIEndpoint			= @"https://graph.facebook.com/";
@@ -49,16 +48,14 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 @synthesize urlSchemeSuffix=_urlSchemeSuffix;
 
 - (void)setAccessToken:(NSString *)accessToken {
-	[_accessToken release];
-	_accessToken = [accessToken retain];
+	_accessToken = accessToken;
 	
 	[[NSUserDefaults standardUserDefaults] setValue:accessToken forKey:kJSFacebookAccessTokenKey];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)setAccessTokenExpiryDate:(NSDate *)accessTokenExpiryDate {
-	[_accessTokenExpiryDate release];
-	_accessTokenExpiryDate = [accessTokenExpiryDate retain];
+	_accessTokenExpiryDate = accessTokenExpiryDate;
 	
 	[[NSUserDefaults standardUserDefaults] setValue:accessTokenExpiryDate forKey:kJSFacebookAccessTokenExpiryDateKey];
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -71,9 +68,11 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 
 #pragma mark - Lifecycle
 
-- (id)init {
+- (id)init
+{
 	self = [super init];
-	if (self) {
+	if (self)
+	{
 		// Default properties
 		_useSSO = YES;
 		_imageQuality = 0.8f;
@@ -93,20 +92,10 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 	return self;
 }
 
-- (void)dealloc {
-	// Properties
-	[_accessToken release];
-	[_accessTokenExpiryDate release];
-    [_facebookAppID release];
-	[_facebookAppSecret release];
-	[_urlSchemeSuffix release];
+- (void)dealloc
+{
 	// Dispatch stuff
 	dispatch_release(network_queue);
-    // Blocks
-    [authSuccessBlock release];
-    [authErrorBlock release];
-	// Super
-	[super dealloc];
 }
 
 #pragma mark - Methods
@@ -305,7 +294,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 			 onError:(JSFBErrorBlock)errBlock
 {
 	// Additional parameters
-	NSMutableDictionary *params_ = [[graphRequest.parameters mutableCopy] autorelease];
+	NSMutableDictionary *params_ = [graphRequest.parameters mutableCopy];
 	[params_ setValue:@"json" forKey:@"format"];
 
 	// Add the access token
@@ -359,7 +348,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 			NSData *httpData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 			// Parse the data into a string (if valid)
 			if (error == nil && httpData != nil) {
-				NSString *responseString = [[[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding] autorelease];
+				NSString *responseString = [[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding];
 				// It's JSON so parse it
 				NSError *jsonError = nil;
 				id jsonObject = [NSJSONSerialization JSONObjectWithData:httpData options:0 error:&jsonError];
@@ -392,14 +381,13 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 		}
 	});
 	
-	[request release];
 }
 
 - (void)requestWithGraphPath:(NSString *)graphPath
 				   onSuccess:(JSFBSuccessBlock)succBlock
 					 onError:(JSFBErrorBlock)errBlock
 {
-	JSFacebookRequest *graphRequest = [[[JSFacebookRequest alloc] initWithGraphPath:graphPath] autorelease];
+	JSFacebookRequest *graphRequest = [[JSFacebookRequest alloc] initWithGraphPath:graphPath];
 	[self fetchRequest:graphRequest onSuccess:succBlock onError:errBlock];
 }
 
@@ -475,7 +463,6 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 	
 	// Add the batch requests to the main request
 	[params_ setValue:batchData forKey:@"batch"];
-	[batchData release];
 	
 	// Add the POST body
 	[request setHTTPBody:[params_ generatePOSTBodyWithBoundary:kJSFacebookStringBoundary]];
@@ -536,8 +523,6 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 			}
 		}
 	});
-	
-	[request release];
 }
 
 @end

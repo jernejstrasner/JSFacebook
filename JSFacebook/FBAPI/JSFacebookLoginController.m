@@ -12,14 +12,14 @@
 
 @interface JSFacebookLoginController ()
 
-@property (nonatomic, retain) UINavigationBar *navigationBar;
-@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, retain) UIWebView *webView;
+@property (nonatomic, strong) UINavigationBar *navigationBar;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIWebView *webView;
 
 @property (nonatomic, copy) JSFBLoginSuccessBlock successHandler;
 @property (nonatomic, copy) JSFBLoginErrorBlock errorHandler;
 
-@property (nonatomic, retain) NSArray *permissions;
+@property (nonatomic, strong) NSArray *permissions;
 
 - (void)close;
 - (void)success;
@@ -47,7 +47,7 @@
 													onSuccess:(JSFBLoginSuccessBlock)successBlock
 													  onError:(JSFBLoginErrorBlock)errorBlock
 {
-	return [[[self alloc] initWithPermissions:permissions successBlock:successBlock errorBlock:errorBlock] autorelease];
+	return [[self alloc] initWithPermissions:permissions successBlock:successBlock errorBlock:errorBlock];
 }
 
 #pragma mark - Lifecycle
@@ -58,7 +58,7 @@
 {
 	self = [super init];
 	if (self) {
-		_permissions = [permissions retain];
+		_permissions = permissions;
 		successHandler = [successBlock copy];
 		errorHandler = [errorBlock copy];
 	}
@@ -72,27 +72,27 @@
 	self.title = @"Facebook";
 	
 	// Add the UIWebView
-	self.webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, -2, self.view.bounds.size.width, self.view.bounds.size.height+2)] autorelease];
+	self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -2, self.view.bounds.size.width, self.view.bounds.size.height+2)];
 	self.webView.delegate = self;
 	self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self.view addSubview:self.webView];
     
     // Navigation bar
-    self.navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.bounds.size.width, 44.0f)] autorelease];
+    self.navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.bounds.size.width, 44.0f)];
     self.navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
     [self.view addSubview:self.navigationBar];
     
     // Navigation item
-    UINavigationItem *navigationItem = [[[UINavigationItem alloc] initWithTitle:@"Facebook"] autorelease];
+    UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:@"Facebook"];
     [self.navigationBar pushNavigationItem:navigationItem animated:YES];
 	
 	// Add the activity indicator
-	self.activityIndicator = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
+	self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	self.activityIndicator.hidesWhenStopped = YES;
-    navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator] autorelease];
+    navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
     
     // Close button
-    navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)] autorelease];
+    navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
 	
 	// Load the login page
 	NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -125,18 +125,8 @@
 
 - (void)dealloc
 {
-    [_navigationBar release];
     _webView.delegate = nil;
     [_webView stopLoading];
-	[_webView release];
-	[_activityIndicator release];
-
-	[successHandler release];
-	[errorHandler release];
-    
-	[_permissions release];
-
-    [super dealloc];
 }
 
 #pragma mark - Methods

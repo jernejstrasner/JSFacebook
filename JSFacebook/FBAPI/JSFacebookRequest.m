@@ -10,7 +10,8 @@
 
 @interface JSFacebookRequest ()
 
-@property (nonatomic, retain) NSMutableDictionary *internalParameters;
+@property (nonatomic, strong) NSMutableDictionary *internalParameters;
+@property (nonatomic, strong, readwrite) NSDictionary *parameters;
 
 @end
 
@@ -34,7 +35,7 @@
 
 - (NSDictionary *)parameters
 {
-	return [[self.internalParameters copy] autorelease];
+	return [self.internalParameters copy];
 }
 
 @synthesize name=name_;
@@ -56,8 +57,8 @@
 - (id)initWithGraphPath:(NSString *)graphPath {
 	self = [super init];
 	if (self) {
-		graphPath_ = [graphPath retain];
-		httpMethod_ = [[NSString alloc] initWithString:@"GET"];
+		graphPath_ = graphPath;
+		httpMethod_ = @"GET";
 		omitResponseOnSuccess_ = YES;
 		_authenticate = YES;
 	}
@@ -68,19 +69,10 @@
 	return [self initWithGraphPath:nil];
 }
 
-- (void)dealloc {
-	[graphPath_ release];
-	[httpMethod_ release];
-	[internalParameters release];
-	[_parameters release];
-	[name_ release];
-	[super dealloc];
-}
-
 #pragma mark - Class methods
 
 + (id)requestWithGraphPath:(NSString *)graphPath {
-	return [[[JSFacebookRequest alloc] initWithGraphPath:graphPath] autorelease];
+	return [[JSFacebookRequest alloc] initWithGraphPath:graphPath];
 }
 
 @end

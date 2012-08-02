@@ -37,11 +37,11 @@ typedef void (^JSFBBatchSuccessBlock)(NSArray *responseObjects);
 
 @interface JSFacebook : NSObject
 
-@property (nonatomic, retain) NSString *facebookAppID;
-@property (nonatomic, retain) NSString *facebookAppSecret;
-@property (nonatomic, retain) NSString *urlSchemeSuffix;
-@property (nonatomic, retain) NSString *accessToken;
-@property (nonatomic, retain) NSDate *accessTokenExpiryDate;
+@property (nonatomic, strong) NSString *facebookAppID;
+@property (nonatomic, strong) NSString *facebookAppSecret;
+@property (nonatomic, strong) NSString *urlSchemeSuffix;
+@property (nonatomic, strong) NSString *accessToken;
+@property (nonatomic, strong) NSDate *accessTokenExpiryDate;
 
 + (JSFacebook *)sharedInstance;
 

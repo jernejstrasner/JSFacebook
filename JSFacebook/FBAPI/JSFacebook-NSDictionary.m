@@ -21,18 +21,16 @@
 			obj = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:obj options:0 error:nil] encoding:NSUTF8StringEncoding];
 		}
 		// Escaping
-		NSString *escaped_value = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, /* allocator */
-																					  (CFStringRef)obj,
+		NSString *escaped_value = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, /* allocator */
+																					  (__bridge CFStringRef)obj,
 																					  NULL, /* charactersToLeaveUnescaped */
 																					  (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-																					  kCFStringEncodingUTF8);
+																					  kCFStringEncodingUTF8));
 		// Generate http request parameter pairs
 		[pairs addObject:[NSString stringWithFormat:@"%@=%@", key, escaped_value]];
-		[escaped_value release];
 	}
 	
 	NSString *parameters = [pairs componentsJoinedByString:@"&"];
-	[pairs release];
 	
 	return parameters;
 }

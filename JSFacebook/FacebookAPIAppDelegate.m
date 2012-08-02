@@ -31,8 +31,8 @@
     
     // Before you try to athenticate you must set the Facebook app ID
 //    #error Enter your Facebook app ID here
-    [[JSFacebook sharedInstance] setFacebookAppID:@""];
-	[[JSFacebook sharedInstance] setFacebookAppSecret:@""];
+    [[JSFacebook sharedInstance] setFacebookAppID:@"150562561623295"];
+	[[JSFacebook sharedInstance] setFacebookAppSecret:@"57bbf597b106686cb86603344b1a5651"];
 	
 	// Permissions reference: http://developers.facebook.com/docs/authentication/permissions/
 	// Enter the permissions you want in this array
@@ -109,11 +109,5 @@
     return YES;
 }
 
-- (void)dealloc
-{
-	[_window release];
-	[_navigationController release];
-    [super dealloc];
-}
 
 @end
