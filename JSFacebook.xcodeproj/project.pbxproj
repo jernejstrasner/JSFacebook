@@ -22,7 +22,6 @@
 		1958B990133E896500C90D1A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B98F133E896500C90D1A /* RootViewController.m */; };
 		1958B9DF133E92F600C90D1A /* JSFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 1958B9DE133E92F600C90D1A /* JSFacebook.m */; };
 		195FB8E913413593006137FF /* JSFacebookRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 195FB8E813413593006137FF /* JSFacebookRequest.m */; };
-		19F4DF4413460627005C67CF /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 19F4DF2B13460627005C67CF /* JSONKit.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,8 +51,6 @@
 		195FB8E713413593006137FF /* JSFacebookRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSFacebookRequest.h; sourceTree = "<group>"; };
 		195FB8E813413593006137FF /* JSFacebookRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSFacebookRequest.m; sourceTree = "<group>"; };
 		197A727C133FF93100590300 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		19F4DF2A13460627005C67CF /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
-		19F4DF2B13460627005C67CF /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +97,6 @@
 		1958B97F133E896500C90D1A /* JSFacebook */ = {
 			isa = PBXGroup;
 			children = (
-				19F4DF0413460627005C67CF /* JSONKit */,
 				1958B9DC133E92CB00C90D1A /* FBAPI */,
 				1958B988133E896500C90D1A /* FacebookAPIAppDelegate.h */,
 				1958B989133E896500C90D1A /* FacebookAPIAppDelegate.m */,
@@ -142,15 +138,6 @@
 			);
 			path = FBAPI;
 			sourceTree = "<group>";
-		};
-		19F4DF0413460627005C67CF /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				19F4DF2A13460627005C67CF /* JSONKit.h */,
-				19F4DF2B13460627005C67CF /* JSONKit.m */,
-			);
-			path = JSONKit;
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -224,7 +211,6 @@
 				1958B9DF133E92F600C90D1A /* JSFacebook.m in Sources */,
 				195FB8E913413593006137FF /* JSFacebookRequest.m in Sources */,
 				19521E0B134488210042E084 /* JSFacebook-NSDictionary.m in Sources */,
-				19F4DF4413460627005C67CF /* JSONKit.m in Sources */,
 				19518FBE13472FF300ABE293 /* JSFacebookLoginController.m in Sources */,
 				19518FC21347335400ABE293 /* JSFacebook-NSString.m in Sources */,
 			);
@@ -272,7 +258,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -286,7 +272,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 			};
@@ -307,7 +293,7 @@
 				GCC_PREFIX_HEADER = "JSFacebook/JSFacebook-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "JSFacebook/JSFacebook-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = JSFacebook;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -328,7 +314,7 @@
 				GCC_PREFIX_HEADER = "JSFacebook/JSFacebook-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "JSFacebook/JSFacebook-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = JSFacebook;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

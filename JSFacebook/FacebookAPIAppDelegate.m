@@ -10,7 +10,7 @@
 
 #import "JSFacebook.h"
 
-#warning If you are using SSO auth, don't forget to register the URL scheme for the app. Details in the comment below.
+//#warning If you are using SSO auth, don't forget to register the URL scheme for the app. Details in the comment below.
 /**
  If you're using SSO authentication, your app has to register a URL scheme for the callback URL.
  The URL scheme has to be your Facebook app ID prefixed with 'fb'. Eg. fb000000000000000
@@ -30,7 +30,7 @@
 	[self.window makeKeyAndVisible];
     
     // Before you try to athenticate you must set the Facebook app ID
-    #error Enter your Facebook app ID here
+//    #error Enter your Facebook app ID here
     [[JSFacebook sharedInstance] setFacebookAppID:@""];
 	[[JSFacebook sharedInstance] setFacebookAppSecret:@""];
 	
@@ -104,15 +104,6 @@
     return YES;
 }
 
-// Pre 4.2 support
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-{
-    DLog(@"Handle URL: %@", url);
-    [[JSFacebook sharedInstance] handleCallbackURL:url];
-    return YES;
-}
-
-// For 4.2+ support
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     DLog(@"Open URL: %@", url);

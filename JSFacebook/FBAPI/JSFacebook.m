@@ -7,7 +7,6 @@
 //
 
 #import "JSFacebook.h"
-#import "JSONKit.h"
 
 
 // Constants
@@ -362,7 +361,13 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 			if (error == nil && httpData != nil) {
 				NSString *responseString = [[[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding] autorelease];
 				// It's JSON so parse it
-				id jsonObject = [responseString objectFromJSONString];
+				id jsonObject = [NSJSONSerialization JSONObjectWithData:httpData options:0 error:&error];
+				if (error) {
+					// Could not parse JSON
+					dispatch_async(dispatch_get_main_queue(), ^{
+						errBlock(error);
+					});
+				}
 				// Check for errors
 				if (jsonObject == nil && responseString.length > 0) {
 					// Something is in there but isn't JSON
@@ -496,9 +501,14 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 			NSData *httpData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 			// Parse the data into a string (if valid)
 			if (error == nil && httpData != nil) {
-				NSString *responseString = [[[NSString alloc] initWithData:httpData encoding:NSUTF8StringEncoding] autorelease];
 				// It's JSON so parse it
-				NSArray *jsonObject = [responseString objectFromJSONString];
+				id jsonObject = [NSJSONSerialization JSONObjectWithData:httpData options:0 error:&error];
+				if (error) {
+					// Could not parse JSON
+					dispatch_async(dispatch_get_main_queue(), ^{
+						errBlock(error);
+					});
+				}
 				// Parse the different batch requests
 				NSMutableArray *batchResponses = [NSMutableArray array];
 				for (id responseObject in jsonObject) {
@@ -508,8 +518,9 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 					}
 					// Check for errors
 					int response_code = [[responseObject valueForKey:@"code"] intValue];
-					NSDictionary *data = [[responseObject valueForKey:@"body"] objectFromJSONString];
-					if (response_code != 200) {
+					NSError *jsonError = nil;
+					NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[[responseObject valueForKey:@"body"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&jsonError];
+					if (response_code != 200 || jsonError) {
 						// We have an error
 						error = [NSError errorWithDomain:[data valueForKeyPath:@"error.type"] code:response_code userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[data valueForKeyPath:@"error.message"], NSLocalizedDescriptionKey, nil]];
 						[batchResponses addObject:error];
