@@ -242,7 +242,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
     NSString *urlString = [url absoluteString];
     NSString *queryString = nil;
     @try {
-        queryString = [urlString substringFromIndex:[urlString rangeOfString:@"#"].location + 1];
+        queryString = [urlString substringFromIndex:[urlString rangeOfString:@"[#?]" options:NSRegularExpressionSearch].location + 1];
     }
     @catch (NSException *exception) {
         ALog(@"Could not parse the query string: %@", [exception reason]);
