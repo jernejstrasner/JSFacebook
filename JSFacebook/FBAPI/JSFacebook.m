@@ -8,6 +8,7 @@
 
 #import "JSFacebook.h"
 
+
 // Constants
 NSString * const kJSFacebookStringBoundary				= @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
 NSString * const kJSFacebookGraphAPIEndpoint			= @"https://graph.facebook.com/";
@@ -170,7 +171,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 {
 	// First check if we have the token and that it is not expired
 	if (![self isSessionValid]) {
-		completionHandler(NO);
+		if (completionHandler) completionHandler(NO);
 		return;
 	}
 	// Create a request to the Facebook servers to see if we have access with the token that we have
@@ -178,11 +179,11 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 	[request addParameter:@"fields" withValue:@"id"];
 	[[JSFacebook sharedInstance] fetchRequest:request onSuccess:^(id responseObject) {
 		// Access token is valid
-		completionHandler(YES);
+		if (completionHandler) completionHandler(YES);
 	} onError:^(NSError *error) {
 		// Not valid
 		NSLog(@"Error: %@", [error localizedDescription]);
-		completionHandler(NO);
+		if (completionHandler) completionHandler(NO);
 	}];
 }
 
@@ -246,7 +247,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
     }
     @catch (NSException *exception) {
         ALog(@"Could not parse the query string: %@", [exception reason]);
-        self.authErrorBlock([NSError errorWithDomain:@"com.jernejstrasner.jsfacebook" code:100 userInfo:@{NSLocalizedDescriptionKey: [exception reason]}]);
+        if (self.authErrorBlock) self.authErrorBlock([NSError errorWithDomain:@"com.jernejstrasner.jsfacebook" code:100 userInfo:@{NSLocalizedDescriptionKey: [exception reason]}]);
 		return;
     }
     
@@ -257,7 +258,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
         NSString *errorDescription = [queryString getQueryValueWithKey:@"error_description"];
         NSError *error = [NSError errorWithDomain:errorString code:666 userInfo:@{NSLocalizedDescriptionKey: errorDescription}];
         // Error block
-        self.authErrorBlock(error);
+        if (self.authErrorBlock) self.authErrorBlock(error);
     } else {
         // Request successfull, parse the token
         NSString *token =	[[url absoluteString] getQueryValueWithKey:@"access_token"];
@@ -278,11 +279,11 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
             [[JSFacebook sharedInstance] setAccessToken:token];
             [[JSFacebook sharedInstance] setAccessTokenExpiryDate:expirationDate];
             // Call the success block
-            self.authSuccessBlock();
+            if (self.authSuccessBlock) self.authSuccessBlock();
         } else {
             // Oops. We have an error. No valid token found.
             NSError *error = [NSError errorWithDomain:@"invalid_token" code:666 userInfo:@{NSLocalizedDescriptionKey: @"Invalid token"}];
-            self.authErrorBlock(error);
+            if (self.authErrorBlock) self.authErrorBlock(error);
         }
     }
 }
@@ -356,26 +357,26 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 					// Something is in there but isn't JSON
 					// Pass it directly
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
-						succBlock(responseString);
+						if (succBlock) succBlock(responseString);
 					});
 				}
 				else if ([jsonObject isKindOfClass:[NSDictionary class]] && [jsonObject valueForKey:@"error"] != nil) {
 					// If there is an error object in the response, something went wront at Facebook's servers
 					error = [NSError errorWithDomain:[jsonObject valueForKeyPath:@"error.type"] code:0 userInfo:@{NSLocalizedDescriptionKey: [jsonObject valueForKeyPath:@"error.message"]}];
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
-						errBlock(error);
+						if (errBlock) errBlock(error);
 					});
 				}
 				else {
 					// Execute the block
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
-						succBlock(jsonObject);
+						if (succBlock) succBlock(jsonObject);
 					});
 				}
 			} else {
 				// We have an error to handle
 				dispatch_async(dispatch_get_main_queue(), ^(void) {
-					errBlock(error);
+					if (errBlock) errBlock(error);
 				});
 			}
 		}
@@ -488,7 +489,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 				if (jsonError != nil) {
 					// Could not parse JSON
 					dispatch_async(dispatch_get_main_queue(), ^{
-						errBlock(error);
+						if (errBlock) errBlock(error);
 					});
 					return;
 				}
@@ -513,12 +514,12 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 				}
 				// Execute the block
 				dispatch_async(dispatch_get_main_queue(), ^(void) {
-					succBlock(batchResponses);
+					if (succBlock) succBlock(batchResponses);
 				});
 			} else {
 				// We have an error to handle
 				dispatch_async(dispatch_get_main_queue(), ^(void) {
-					errBlock(error);
+					if (errBlock) errBlock(error);
 				});
 			}
 		}
