@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "JSONKit.h"
-
 
 @interface NSDictionary (JSFacebook)
 
