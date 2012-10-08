@@ -46,7 +46,7 @@
 	for (id key in self) {
 		id value = [self valueForKey:key];
 		if ([value isKindOfClass:[UIImage class]]) {
-			UIImage *image = [self objectForKey:key];
+			UIImage *image = self[key];
 			NSData *data = UIImageJPEGRepresentation(image, 0.8);
 			[body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];
 			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: multipart/form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
