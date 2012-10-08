@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-
 @interface NSDictionary (JSFacebook)
 
 // Network data encoding methods

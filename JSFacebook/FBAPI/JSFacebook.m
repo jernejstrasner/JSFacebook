@@ -250,7 +250,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
         if (self.authErrorBlock) self.authErrorBlock([NSError errorWithDomain:@"com.jernejstrasner.jsfacebook" code:100 userInfo:@{NSLocalizedDescriptionKey: [exception reason]}]);
 		return;
     }
-    
+
     // Check for errors
     NSString *errorString = [queryString getQueryValueWithKey:@"error"];
     if (errorString != nil) {
@@ -263,7 +263,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
         // Request successfull, parse the token
         NSString *token =	[[url absoluteString] getQueryValueWithKey:@"access_token"];
         NSString *expTime =	[[url absoluteString] getQueryValueWithKey:@"expires_in"];
-        
+
         NSDate *expirationDate = nil;
         if (expTime != nil) {
             int expVal = [expTime intValue];
