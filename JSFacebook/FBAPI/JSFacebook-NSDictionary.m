@@ -7,7 +7,6 @@
 //
 
 #import "JSFacebook-NSDictionary.h"
-#import "JSONKit.h"
 
 @implementation NSDictionary (JSFacebook)
 

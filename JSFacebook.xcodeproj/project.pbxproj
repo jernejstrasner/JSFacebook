@@ -165,7 +165,7 @@
 		1958B96C133E896400C90D1A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = JernejStrasner.com;
 			};
 			buildConfigurationList = 1958B96F133E896400C90D1A /* Build configuration list for PBXProject "JSFacebook" */;
@@ -292,6 +292,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JSFacebook/JSFacebook-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "JSFacebook/JSFacebook-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -314,6 +315,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JSFacebook/JSFacebook-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "JSFacebook/JSFacebook-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
