@@ -362,7 +362,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 				}
 				else if ([jsonObject isKindOfClass:[NSDictionary class]] && [jsonObject valueForKey:@"error"] != nil) {
 					// If there is an error object in the response, something went wront at Facebook's servers
-					error = [NSError errorWithDomain:[jsonObject valueForKeyPath:@"error.type"] code:0 userInfo:@{NSLocalizedDescriptionKey: [jsonObject valueForKeyPath:@"error.message"]}];
+					error = [NSError errorWithDomain:[jsonObject valueForKeyPath:@"error.type"] code:[[jsonObject valueForKeyPath:@"error.code"] integerValue] userInfo:@{NSLocalizedDescriptionKey: [jsonObject valueForKeyPath:@"error.message"]}];
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
 						if (errBlock) errBlock(error);
 					});
@@ -506,7 +506,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 					NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[[responseObject valueForKey:@"body"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&jsonError];
 					if (response_code != 200 || jsonError) {
 						// We have an error
-						error = [NSError errorWithDomain:[data valueForKeyPath:@"error.type"] code:response_code userInfo:@{NSLocalizedDescriptionKey: [data valueForKeyPath:@"error.message"]}];
+						error = [NSError errorWithDomain:[data valueForKeyPath:@"error.type"] code:[[data valueForKeyPath:@"error.code"] integerValue] userInfo:@{NSLocalizedDescriptionKey: [data valueForKeyPath:@"error.message"]}];
 						[batchResponses addObject:error];
 					} else {
 						[batchResponses addObject:data];
