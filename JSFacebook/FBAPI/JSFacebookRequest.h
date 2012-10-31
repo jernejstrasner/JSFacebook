@@ -19,8 +19,10 @@
 @property (nonatomic) BOOL authenticate;
 
 - (id)initWithGraphPath:(NSString *)graphPath;
+- (id)initWithOpenGraphNamespace:(NSString *)space andAction:(NSString *)action;
 
 + (id)requestWithGraphPath:(NSString *)graphPath;
++ (id)requestWithOpenGraphNamespace:(NSString *)space andAction:(NSString *)action;
 
 - (void)addParameter:(NSString *)key withValue:(id)value;
 - (void)removeParameter:(NSString *)key;
