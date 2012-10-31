@@ -68,6 +68,25 @@
 	return self;
 }
 
+- (id)initForOpenGraphAction:(JSFacebookOGAction)action
+{
+	self = [super init];
+	if (self) {
+		NSMutableString *graphPath = [NSMutableString stringWithString:@"/me/"];
+		switch (action) {
+			case JSFacebookOGLike:
+			default:
+				[graphPath appendString:@"og.likes"];
+				break;
+		}
+		_graphPath = [graphPath copy];
+		_httpMethod = @"POST";
+		_omitResponseOnSuccess = YES;
+		_authenticate = YES;
+	}
+	return self;
+}
+
 - (id)init
 {
 	return [self initWithGraphPath:nil];
@@ -83,6 +102,11 @@
 + (id)requestWithOpenGraphNamespace:(NSString *)space andAction:(NSString *)action
 {
 	return [[JSFacebookRequest alloc] initWithOpenGraphNamespace:space andAction:action];
+}
+
++ (id)requestForOpenGraphAction:(JSFacebookOGAction)action
+{
+	return [[JSFacebookRequest alloc] initForOpenGraphAction:action];
 }
 
 @end

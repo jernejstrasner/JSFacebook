@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+	JSFacebookOGLike
+} JSFacebookOGAction;
 
 @interface JSFacebookRequest : NSObject
 
@@ -20,9 +23,11 @@
 
 - (id)initWithGraphPath:(NSString *)graphPath;
 - (id)initWithOpenGraphNamespace:(NSString *)space andAction:(NSString *)action;
+- (id)initForOpenGraphAction:(JSFacebookOGAction)action;
 
 + (id)requestWithGraphPath:(NSString *)graphPath;
 + (id)requestWithOpenGraphNamespace:(NSString *)space andAction:(NSString *)action;
++ (id)requestForOpenGraphAction:(JSFacebookOGAction)action;
 
 - (void)addParameter:(NSString *)key withValue:(id)value;
 - (void)removeParameter:(NSString *)key;
