@@ -93,12 +93,6 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
 	return self;
 }
 
-- (void)dealloc
-{
-	// Dispatch stuff
-	dispatch_release(network_queue);
-}
-
 #pragma mark - Methods
 #pragma mark - Authentication
 
@@ -141,7 +135,7 @@ NSString * const kJSFacebookErrorDomain					= @"com.jsfacebook.error";
                 loginController.modalPresentationStyle = UIModalPresentationFormSheet;
                 loginController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
             }
-            [rootViewController presentModalViewController:loginController animated:YES];
+            [rootViewController presentViewController:loginController animated:YES completion:nil];
         }
 	} else {
 		succBlock();

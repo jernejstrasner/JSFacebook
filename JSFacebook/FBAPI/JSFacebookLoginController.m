@@ -134,9 +134,9 @@
 - (void)close
 {
     if ([self respondsToSelector:@selector(presentingViewController)]) {
-        [self.presentingViewController dismissModalViewControllerAnimated:YES];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     } else {
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
+        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
